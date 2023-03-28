@@ -4,6 +4,7 @@ const express = require("express");
 const compression = require("compression");
 const morgan = require("morgan");
 const { createRequestHandler } = require("@remix-run/express");
+const db = require("./config/connection");
 
 // Set the path to the build directory (where the Remix application's static files are located)
 const BUILD_DIR = path.join(__dirname, "../build");
@@ -50,8 +51,10 @@ app.all(
 // Start the Express application on the specified port
 const port = process.env.PORT || 3000;
 
+db.once("open", () => {
 app.listen(port, () => {
   console.log(`Express server listening on port ${port}`);
+});
 });
 
 // A helper function to purge the Node.js require cache for the build directory
