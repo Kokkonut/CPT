@@ -24,6 +24,9 @@ app.use(
   express.static("public/build", { immutable: true, maxAge: "1y" })
 );
 
+app.use(express.static("public", { maxAge: "1h" }));
+
+
 // Serve other static assets (such as favicon.ico) from the public directory, with a cache expiration of 1 hour
 app.use(express.static("public", { maxAge: "1h" }));
 
