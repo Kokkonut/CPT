@@ -5,12 +5,15 @@ const compression = require("compression");
 const morgan = require("morgan");
 const { createRequestHandler } = require("@remix-run/express");
 const db = require("./config/connection");
-
+const passport = require("passport");
 // Set the path to the build directory (where the Remix application's static files are located)
 const BUILD_DIR = path.join(__dirname, "../build");
 
 // Create an instance of the Express application
 const app = express();
+
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // Use the compression middleware to enable gzip compression of HTTP responses
 app.use(compression());
