@@ -3,15 +3,16 @@ import {
   Links,
   LiveReload,
   Meta,
-  Outlet,
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
 import stylesheet from "~/tailwind.css";
+import IndexLayout from "./layouts/indexLayout";
+import { Outlet } from "@remix-run/react";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "New Remix App",
+  title: "CPT",
   viewport: "width=device-width,initial-scale=1",
 });
 
@@ -21,8 +22,7 @@ export function links() {
   ];
 }
 
-
-export default function App() {
+export default function Root() {
   return (
     <html lang="en">
       <head>
@@ -30,6 +30,13 @@ export default function App() {
         <Links />
       </head>
       <body>
+        {/* just playing around with stlyes based on routes */}
+        {/* <IndexLayout>
+          <Outlet />
+        </IndexLayout> */}
+        {/* <DefaultLayout>
+          <Outlet />
+        </DefaultLayout> */}
         <Outlet />
         <ScrollRestoration />
         <Scripts />
