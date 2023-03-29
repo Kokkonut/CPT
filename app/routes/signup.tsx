@@ -1,21 +1,56 @@
 import { Link } from "@remix-run/react";
+import { useState } from "react";
 import "tailwindcss/tailwind.css";
 
 export default function Signup() {
+  const [formData, setFormData] = useState({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+  });
+
+  function handleChange(e: { target: { name: any; value: any; }; }) {
+      setFormData({
+          ...formData,
+          [e.target.name]: e.target.value,
+      });
+  }
+
+  async function handleSubmit(e: { preventDefault: () => void; }) {
+      e.preventDefault();
+
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <form className="bg-white p-8 rounded-lg shadow-md w-full md:w-1/2 lg:w-1/3">
+      <form className="bg-white p-8 rounded-lg shadow-md w-full md:w-1/2 lg:w-1/3" onSubmit={handleSubmit}>
         <h1 className="text-2xl mb-6 text-center">Signup</h1>
         <div className="mb-4">
           <label htmlFor="name" className="block text-sm mb-2">
-            Full Name
+            First Name
           </label>
           <input
             type="text"
-            id="name"
+            id="first-name"
+            value={formData.firstName}
+            onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
           />
         </div>
+        <div className="mb-4">
+          <label htmlFor="name" className="block text-sm mb-2">
+            Last Name
+          </label>
+          <input
+            type="text"
+            id="last-name"
+            value={formData.lastName}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+          />
+        </div>
+
         <div className="mb-4">
           <label htmlFor="email" className="block text-sm mb-2">
             Email Address
@@ -23,6 +58,8 @@ export default function Signup() {
           <input
             type="email"
             id="email"
+            value={formData.email}
+            onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
           />
         </div>
@@ -33,6 +70,8 @@ export default function Signup() {
           <input
             type="password"
             id="password"
+            value={formData.password}
+            onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
           />
         </div>
