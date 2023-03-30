@@ -19,6 +19,17 @@ export default function Signup() {
 
   async function handleSubmit(e: { preventDefault: () => void; }) {
       e.preventDefault();
+      console.log('form data', formData);
+      const res = await fetch("/api/auth/signup", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+      });
+      if (res.ok) {
+          window.location.href = "/login";
+      }
 
   }
 
@@ -33,6 +44,7 @@ export default function Signup() {
           <input
             type="text"
             id="first-name"
+            name="firstName"
             value={formData.firstName}
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
@@ -45,6 +57,7 @@ export default function Signup() {
           <input
             type="text"
             id="last-name"
+            name="lastName"
             value={formData.lastName}
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
@@ -58,6 +71,7 @@ export default function Signup() {
           <input
             type="email"
             id="email"
+            name="email"
             value={formData.email}
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
@@ -70,6 +84,7 @@ export default function Signup() {
           <input
             type="password"
             id="password"
+            name="password"
             value={formData.password}
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"

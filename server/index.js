@@ -9,11 +9,19 @@ const passport = require("passport");
 // Set the path to the build directory (where the Remix application's static files are located)
 const BUILD_DIR = path.join(__dirname, "../build");
 
+const apiRoutes = require("./routes");
+
 // Create an instance of the Express application
 const app = express();
 
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use('/api', apiRoutes);
+
+app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
+
+
+app.use(passport.initialize());
 
 // Use the compression middleware to enable gzip compression of HTTP responses
 app.use(compression());

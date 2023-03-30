@@ -1,40 +1,30 @@
-import passport from "passport";
-import { Strategy as LocalStrategy } from "passport-local";
-const User = require("../models/user");
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
+const User = require("../models/User");
+
+const passport = require("passport");
+
+const jwtSecret = process.env.JWT_SECRET || "your_jwt_secret";
+
+const jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: jwtSecret,
+};
 
 passport.use(
-  new LocalStrategy(
-    { usernameField: "email" },
-    async (email, password, done) => {
-      try {
-        const user = await User.findOne({ email });
+  new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
+    try {
+      const user = await User.findById(jwtPayload.id);
 
-        if (!user) {
-          return done(null, false, { message: "Incorrect email." });
-        }
-
-        const isPasswordValid = await user.comparePassword(password);
-
-        if (!isPasswordValid) {
-          return done(null, false, { message: "Incorrect password." });
-        }
-
-        return done(null, user, { message: "Logged in Successfully" });
-      } catch (err) {
-        return done(err);
+      if (user) {
+        return done(null, user);
+      } else {
+        return done(null, false);
       }
+    } catch (err) {
+      return done(err, false);
     }
-  )
+  })
 );
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser((id, done) => {
-  User.findById(id, (err, user) => {
-    done(err, user);
-  });
-});
-
-export default passport;
+module.exports = { passport, jwtSecret };
