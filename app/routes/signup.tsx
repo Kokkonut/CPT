@@ -24,11 +24,12 @@ export default function Signup() {
           method: "POST",
           headers: {
               "Content-Type": "application/json",
+              "accept": "application/json",
           },
           body: JSON.stringify(formData),
       });
       if (res.ok) {
-          window.location.href = "/login";
+          window.location.href = "/";
       }
 
   }
