@@ -17,9 +17,21 @@ exports.loginUser = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-
-    const token = jwt.sign({ id: user.id }, jwtSecret, { expiresIn: "1d" });
-    res.json({ token });
+    //added manager flag to token
+    const token = jwt.sign(
+      { id: user.id, role: user.manager ? "manager" : "user" },
+      jwtSecret,
+      { expiresIn: "1d" }
+    );
+    //max age 24 hours for cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 24 * 60 * 60 * 1000,
+      sameSite: "none",
+    });
+    res.status(200).json({ message: "Login successful" });
+    // res.json({ token });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -27,15 +39,14 @@ exports.loginUser = async (req, res) => {
 
 exports.signup = async (req, res) => {
   try {
-    console.log('req', req)
-    console.log('req.body', req.body)
+    console.log("req", req);
+    console.log("req.body", req.body);
     const { firstName, lastName, email, password } = req.body;
     console.log(req.body);
     const user = new User({ firstName, lastName, email, password });
     await user.save();
     res.status(200).json({ message: "User created" });
-  }
-  catch (err) {
+  } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };

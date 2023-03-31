@@ -27,6 +27,10 @@ export default function Login() {
       body: JSON.stringify(formData),
     });
     if (res.ok) {
+        //TODO: Set cookie
+        //REMOVED WHILE TESTING HTTP ONLY COOKIE
+        // const { token } = await res.json();
+        // localStorage.setItem('token', token)
       window.location.href = "/";
     }
   }
