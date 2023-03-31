@@ -31,7 +31,7 @@ export default function Login() {
         //REMOVED WHILE TESTING HTTP ONLY COOKIE
         // const { token } = await res.json();
         // localStorage.setItem('token', token)
-      window.location.href = "/";
+      window.location.href = "/dashboard";
     }
   }
 

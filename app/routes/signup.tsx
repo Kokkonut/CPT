@@ -29,7 +29,7 @@ export default function Signup() {
           body: JSON.stringify(formData),
       });
       if (res.ok) {
-          window.location.href = "/";
+          window.location.href = "/dashboard";
       }
 
   }
