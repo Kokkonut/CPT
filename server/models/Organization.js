@@ -32,6 +32,18 @@ const organizationSchema = new Schema({
         ref: 'Project',
     }],
 
+    joinRequests: [{
+        user: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+        },
+        status: {
+            type: String,
+            enum: ['pending', 'accepted', 'rejected'],
+            default: 'pending',
+        },
+    }],
+
     }
 );
 
