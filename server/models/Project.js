@@ -20,7 +20,7 @@ const projectSchema = new Schema({
     },
     endDate: {
         type: Date,
-        required: true,
+        required: false,
         trim: true,
     },
     employees: {
