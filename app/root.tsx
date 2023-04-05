@@ -6,9 +6,8 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import stylesheet from "~/tailwind.css";
-import IndexLayout from "./layouts/indexLayout";
 import { Outlet } from "@remix-run/react";
+import stylesheet from "~/tailwind.css";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -30,13 +29,6 @@ export default function Root() {
         <Links />
       </head>
       <body>
-        {/* just playing around with stlyes based on routes */}
-        {/* <IndexLayout>
-          <Outlet />
-        </IndexLayout> */}
-        {/* <DefaultLayout>
-          <Outlet />
-        </DefaultLayout> */}
         <Outlet />
         <ScrollRestoration />
         <Scripts />

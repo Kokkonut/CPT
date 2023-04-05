@@ -6,6 +6,7 @@ const { createRequestHandler } = require("@remix-run/express");
 const db = require("./config/connection");
 const passport = require("passport");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 const BUILD_DIR = path.join(__dirname, "../build");
 const apiRoutes = require("./routes");
@@ -15,6 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(passport.initialize());
 app.use(compression());
 app.disable("x-powered-by");
