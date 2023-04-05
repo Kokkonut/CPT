@@ -1,18 +1,21 @@
 const jwt = require("jsonwebtoken");
 
 exports.authenticateJWT = (req, res, next) => {
-  // Read the token from the cookie instead of the header
   const token = req.cookies.token;
+  console.log("Token from cookie:", token);
 
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err) {
-        return res.sendStatus(403);
-      }
-      req.user = user;
-      next();
-    });
-  } else {
-    res.sendStatus(401);
+  if (!token) {
+    return res.status(403).json({ message: "No token provided" });
   }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      console.error("JWT verification error:", err);
+      return res.status(403).json({ message: "Failed to authenticate token" });
+    }
+
+    console.log("Decoded user object:", decoded);
+    req.user = decoded;
+    next();
+  });
 };

@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const { jwtSecret } = require("../config/passport");
 const User = require("../models/user");
 
+//login
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -24,12 +25,15 @@ exports.loginUser = async (req, res) => {
       { expiresIn: "1d" }
     );
     //max age 24 hours for cookie
+    const isProduction = process.env.NODE_ENV === "production";
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: isProduction,
       maxAge: 24 * 60 * 60 * 1000,
-      sameSite: "none",
+      sameSite: isProduction ? "none" : undefined,
     });
+    console.log("token", token);
+    console.log('Set-Cookie:', res.get('Set-Cookie'));
     res.status(200).json({ message: "Login successful" });
     // res.json({ token });
   } catch (err) {
@@ -37,6 +41,7 @@ exports.loginUser = async (req, res) => {
   }
 };
 
+//signup  
 exports.signup = async (req, res) => {
   try {
     console.log("req", req);
