@@ -6,7 +6,7 @@ const OrganizationRoutes = require("./organizationRoutes");
 const UserRoutes = require("./userRoutes");
 
 router.use("/auth", authRoutes);
-router.use("/organization", OrganizationRoutes);
+router.use("/org", OrganizationRoutes);
 router.use("/user", UserRoutes);
 
 

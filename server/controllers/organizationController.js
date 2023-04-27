@@ -3,6 +3,7 @@ const User = require("../models/User");
 
 exports.createOrganization = async (req, res) => {
   try {
+    console.log('START CREATE ORG');
     const { name, description } = req.body;
     const userId = req.user.id;
 
