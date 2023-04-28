@@ -1,47 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import DashboardLayout from "~/components/Dashboardlayout";
 import CreateOrg from "./CreateOrg";
 import JoinOrg from "./JoinOrg";
+import { useLoaderData } from "@remix-run/react";
+import { fetch } from "@remix-run/node";
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const cookie = request.headers.get("cookie");
+
+  const response = await fetch("http://localhost:3000/api/user/data", {
+    headers: {
+      cookie: cookie, // Pass the cookies along with the request
+    },
+  });
+  console.log("response received", response);
+  const data = await response.json();
+  console.log('data', data);
+  return data;
+}
 
 const Dashboard: React.FC = () => {
-  // State variable to store user data
-  const [userData, setUserData] = useState<any>(null);
-
-  // Function to fetch user data
-  const fetchUserData = async () => {
-    try {
-      const response = await fetch("api/user/data", {
-        method: "GET",
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUserData(data);
-      } else {
-        console.error("Failed to fetch user data");
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-
-  // Fetch user data when the component mounts
-  useEffect(() => {
-    fetchUserData();
-  }, []);
+  const userData = useLoaderData();
 
   // Conditionally render the components based on the user's organizations
   return (
-    <DashboardLayout>
-      {userData && userData.organizations.length === 0 ? (
-        <>
-          <CreateOrg />
-          <JoinOrg />
-        </>
-      ) : (
-        <div>Your organizations will be shown here</div>
-      )}
-    </DashboardLayout>
+    <></>
+    // <DashboardLayout>
+    //   {userData && userData.organizations.length === 0 ? (
+    //     <>
+    //       <CreateOrg />
+    //       <JoinOrg />
+    //     </>
+    //   ) : (
+    //     <div>
+    //       <h2>Your Organizations</h2>
+    //       <ul>
+    //         {userData?.organizations?.map((organizations: any, index: number) => (
+    //           <li key={index}>
+    //             <h3>{organizations.org.name}</h3>
+    //             <p>{organizations.org.description}</p>
+    //           </li>
+    //         ))}
+    //       </ul>
+    //     </div>
+    //   )}
+    // </DashboardLayout>
   );
 };
 

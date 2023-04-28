@@ -40,10 +40,17 @@ function handleBotRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
+  const context = {
+    request,
+    headers: {
+      cookie: request.headers.get("cookie"),
+    }
+  }
+
   return new Promise((resolve, reject) => {
     const { pipe, abort } = renderToPipeableStream(
       <RemixServer
-        context={remixContext}
+        context={{ ...remixContext, ...context}}
         url={request.url}
         abortDelay={ABORT_DELAY}
       />,
@@ -82,10 +89,18 @@ function handleBrowserRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
+
+  const context = {
+    request,
+    headers: {
+      cookie: request.headers.get("cookie"),
+    }
+  };
+
   return new Promise((resolve, reject) => {
     const { pipe, abort } = renderToPipeableStream(
       <RemixServer
-        context={remixContext}
+        context={{...remixContext, ...context}}
         url={request.url}
         abortDelay={ABORT_DELAY}
       />,
