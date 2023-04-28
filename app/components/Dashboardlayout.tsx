@@ -31,7 +31,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         >
           {userData && userData.organizations.length > 0 && (
             <>
-              <Link to="/create-org">Create Organization</Link>
+              <Link to="/createOrg">Create Organization</Link>
               <Link to="/join-org">Join Organization</Link>
             </>
           )}

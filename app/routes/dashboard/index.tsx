@@ -4,8 +4,10 @@ import CreateOrg from "./CreateOrg";
 import JoinOrg from "./JoinOrg";
 import { useLoaderData } from "@remix-run/react";
 import { fetch } from "@remix-run/node";
+// TODO: fix this linting error
+import type { LoaderContext } from "@remix-run/react";
 
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderContext) {
   const cookie = request.headers.get("cookie");
 
   const response = await fetch("http://localhost:3000/api/user/data", {
@@ -20,31 +22,31 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 const Dashboard: React.FC = () => {
-  const userData = useLoaderData();
+  const { organizations } = useLoaderData();
+  console.log('organizations in dashboard', organizations);
 
   // Conditionally render the components based on the user's organizations
   return (
-    <></>
-    // <DashboardLayout>
-    //   {userData && userData.organizations.length === 0 ? (
-    //     <>
-    //       <CreateOrg />
-    //       <JoinOrg />
-    //     </>
-    //   ) : (
-    //     <div>
-    //       <h2>Your Organizations</h2>
-    //       <ul>
-    //         {userData?.organizations?.map((organizations: any, index: number) => (
-    //           <li key={index}>
-    //             <h3>{organizations.org.name}</h3>
-    //             <p>{organizations.org.description}</p>
-    //           </li>
-    //         ))}
-    //       </ul>
-    //     </div>
-    //   )}
-    // </DashboardLayout>
+    <DashboardLayout>
+      {organizations && organizations.length === 0 ? (
+        <>
+          <CreateOrg />
+          <JoinOrg />
+        </>
+      ) : (
+        <div>
+          <h2>Your Organizations</h2>
+          <ul>
+            {organizations?.map(({ org: { name, description } }: any, index: number) => (
+              <li key={index}>
+                <h3>{name}</h3>
+                <p>{description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </DashboardLayout>
   );
 };
 

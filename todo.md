@@ -1,0 +1,5 @@
+# Fix error with cookies not being saved when a new account is being created
+# Fix linting error in dashboard.index.tsx
+# Change createOrg and joinOrg to modal
+# Create org component
+thinking something like a a div that will display org name, number of members and perhaps outstanding tasks tracker.
