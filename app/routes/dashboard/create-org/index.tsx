@@ -1,67 +1,19 @@
-// import React, { useState } from 'react';
-// import { Form } from '@remix-run/react';
+import React, { useState, useEffect } from 'react';
 
-// const CreateOrg: React.FC = () => {
-//   const [showForm, setShowForm] = useState(false);
+interface CreateOrgProps {
+  visible?: boolean;
+  closeModal: () => void;
+}
 
-//   return (
-//     <div className="space-y-4">
-//       <h1 className="text-xl font-semibold">
-//         <button
-//           onClick={() => setShowForm(!showForm)}
-//           className="text-blue-500 hover:text-blue-700"
-//         >
-//           Create Organization
-//         </button>
-//       </h1>
-//       {showForm && (
-//         <div className="space-y-4">
-//           <Form method="post" action="/api/org/create" className="space-y-4">
-//             <div className="flex flex-col">
-//               <label htmlFor="name" className="font-medium">
-//                 Name:
-//               </label>
-//               <input
-//                 id="name"
-//                 name="name"
-//                 type="text"
-//                 required
-//                 className="border border-gray-300 p-2 rounded"
-//               />
-//             </div>
-//             <div className="flex flex-col">
-//               <label htmlFor="description" className="font-medium">
-//                 Description:
-//               </label>
-//               <textarea
-//                 id="description"
-//                 name="description"
-//                 required
-//                 className="border border-gray-300 p-2 rounded resize-none"
-//               ></textarea>
-//             </div>
-//             <button
-//               type="submit"
-//               className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700"
-//             >
-//               Create Organization
-//             </button>
-//           </Form>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default CreateOrg;
-
-import React, { useState } from 'react';
-
-const CreateOrg = () => {
-  const [showForm, setShowForm] = useState(false);
+const CreateOrg: React.FC<CreateOrgProps> = ({ visible = false, closeModal }) => {
+  const [showForm, setShowForm] = useState(visible);
   const [formData, setFormData] = useState({ name: '', description: '' });
 
-  const handleFormSubmit = async (e: { preventDefault: () => void}) => {
+  useEffect(() => {
+    setShowForm(visible);
+  }, [visible]);
+
+  const handleFormSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
       const response = await fetch('/api/org/create', {
@@ -84,7 +36,7 @@ const CreateOrg = () => {
     }
   };
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: { target: { name: any; value: any } }) => {
     setFormData((prevState) => ({
       ...prevState,
       [event.target.name]: event.target.value,
@@ -145,4 +97,3 @@ const CreateOrg = () => {
 };
 
 export default CreateOrg;
-

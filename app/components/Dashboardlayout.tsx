@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { Link, useLoaderData } from '@remix-run/react';
+import React, { useState } from "react";
+import { Link, useLoaderData } from "@remix-run/react";
+import { CreateOrgProps } from "~/routes/dashboard/create-org";
+import { JoinOrgProps } from "~/routes/dashboard/join-org";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -7,12 +9,14 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const [showNav, setShowNav] = useState(false);
+
   const userData = useLoaderData();
-  console.log('userData in dashboard layout', userData);
+  console.log("userData in dashboard layout", userData);
+
   return (
     <div>
       <header>
-        <div className='logo'>LOGO</div>
+        <div className="logo">LOGO</div>
       </header>
       <div className="flex flex-col lg:flex-row h-screen">
         {/* Mobile navigation toggle button */}
@@ -26,13 +30,17 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         {/* Navigation */}
         <nav
           className={`lg:w-1/4 bg-gray-900 text-white p-4 lg:py-0 lg:px-8 lg:flex flex-col ${
-              showNav ? 'block' : 'hidden lg:block'
-            }`}
+            showNav ? "block" : "hidden lg:block"
+          }`}
         >
           {userData && userData.organizations.length > 0 && (
             <>
-              <Link to="/createOrg">Create Organization</Link>
-              <Link to="/join-org">Join Organization</Link>
+              <Link to="/dashboard/create-org">
+                Create Organization
+              </Link>
+              <Link to="/dashboard/join-org">
+                Join Organization
+              </Link>
             </>
           )}
         </nav>

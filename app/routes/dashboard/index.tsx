@@ -1,11 +1,7 @@
 import React from "react";
 import DashboardLayout from "~/components/Dashboardlayout";
-import CreateOrg from "./CreateOrg";
-import JoinOrg from "./JoinOrg";
 import { useLoaderData } from "@remix-run/react";
 import { fetch } from "@remix-run/node";
-// TODO: fix this linting error
-import type { LoaderContext } from "@remix-run/react";
 
 export async function loader({ request }: LoaderContext) {
   const cookie = request.headers.get("cookie");
@@ -17,32 +13,33 @@ export async function loader({ request }: LoaderContext) {
   });
   console.log("response received", response);
   const data = await response.json();
-  console.log('data', data);
+  console.log("data", data);
   return data;
 }
 
 const Dashboard: React.FC = () => {
   const { organizations } = useLoaderData();
-  console.log('organizations in dashboard', organizations);
+  console.log("organizations in dashboard", organizations);
 
   // Conditionally render the components based on the user's organizations
   return (
     <DashboardLayout>
       {organizations && organizations.length === 0 ? (
-        <>
-          <CreateOrg />
-          <JoinOrg />
-        </>
+        <div>
+          <h2>Welcome! Please create or join an organization.</h2>
+        </div>
       ) : (
         <div>
           <h2>Your Organizations</h2>
           <ul>
-            {organizations?.map(({ org: { name, description } }: any, index: number) => (
-              <li key={index}>
-                <h3>{name}</h3>
-                <p>{description}</p>
-              </li>
-            ))}
+            {organizations?.map(
+              ({ org: { name, description } }: any, index: number) => (
+                <li key={index}>
+                  <h3>{name}</h3>
+                  <p>{description}</p>
+                </li>
+              )
+            )}
           </ul>
         </div>
       )}
@@ -50,4 +47,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default Dashboard

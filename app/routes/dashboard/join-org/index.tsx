@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form } from '@remix-run/react';
 
-const JoinOrg: React.FC = () => {
-  const [showForm, setShowForm] = useState(false);
+interface JoinOrgProps {
+  visible?: boolean;
+  closeModal: () => void;
+}
+
+const JoinOrg: React.FC<JoinOrgProps> = ({ visible = false, closeModal }) => {
+  const [showForm, setShowForm] = useState(visible);
+
+  useEffect(() => {
+    setShowForm(visible);
+  }, [visible]);
 
   async function handleSubmit(event: any) {
     const response = await fetch('/api/organizations/join', {
