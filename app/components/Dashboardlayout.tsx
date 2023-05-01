@@ -1,55 +1,74 @@
 import React, { useState } from "react";
 import { Link, useLoaderData } from "@remix-run/react";
-import { CreateOrgProps } from "~/routes/dashboard/create-org";
-import { JoinOrgProps } from "~/routes/dashboard/join-org";
+import JoinOrg from "~/routes/dashboard/join-org";
+import CreateOrg from "~/routes/dashboard/create-org";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
-  const [showNav, setShowNav] = useState(false);
+  const [showCreateOrg, setShowCreateOrg] = useState(false);
+  const [showJoinOrg, setShowJoinOrg] = useState(false);
 
   const userData = useLoaderData();
-  console.log("userData in dashboard layout", userData);
+
+  function openCreateOrg() {
+    setShowCreateOrg(true);
+  }
+
+  function closeCreateOrg() {
+    setShowCreateOrg(false);
+  }
+
+  function openJoinOrg() {
+    setShowJoinOrg(true);
+  }
+
+  function closeJoinOrg() {
+    setShowJoinOrg(false);
+  }
 
   return (
-    <div>
-      <header>
+    <div className="flex flex-col h-screen">
+      <header className="flex justify-between items-center bg-gray-900 text-white px-4 py-3">
         <div className="logo">LOGO</div>
-      </header>
-      <div className="flex flex-col lg:flex-row h-screen">
-        {/* Mobile navigation toggle button */}
-        <button
-          className="lg:hidden bg-gray-900 text-white p-4"
-          onClick={() => setShowNav(!showNav)}
-        >
-          Menu
-        </button>
-
-        {/* Navigation */}
-        <nav
-          className={`lg:w-1/4 bg-gray-900 text-white p-4 lg:py-0 lg:px-8 lg:flex flex-col ${
-            showNav ? "block" : "hidden lg:block"
-          }`}
-        >
+        <nav className="flex items-center justify-center flex-grow space-x-6">
           {userData && userData.organizations.length > 0 && (
             <>
-              <Link to="/dashboard/create-org">
+              <Link to="#" onClick={openCreateOrg}>
                 Create Organization
               </Link>
-              <Link to="/dashboard/join-org">
+              <Link to="#" onClick={openJoinOrg}>
                 Join Organization
               </Link>
             </>
           )}
         </nav>
-
-        {/* Main view area */}
-        <main className="flex-grow bg-gray-100 p-4 lg:p-8">
-          {children}
-        </main>
+        <div className="user-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="w-6 h-6"
+          >
+            <circle cx="12" cy="12" r="10" />
+          </svg>
+        </div>
+      </header>
+      <div className="flex-grow">
+        {children}
       </div>
+
+      {/* Modals */}
+      {showCreateOrg && <CreateOrg closeModal={closeCreateOrg} />}
+      {showJoinOrg && <JoinOrg closeModal={closeJoinOrg} />}
     </div>
   );
 };

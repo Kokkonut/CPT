@@ -2,6 +2,7 @@ import React from "react";
 import DashboardLayout from "~/components/Dashboardlayout";
 import { useLoaderData } from "@remix-run/react";
 import { fetch } from "@remix-run/node";
+import OrganizationCard from "~/components/OrganizationCard";
 
 export async function loader({ request }: LoaderContext) {
   const cookie = request.headers.get("cookie");
@@ -11,15 +12,14 @@ export async function loader({ request }: LoaderContext) {
       cookie: cookie, // Pass the cookies along with the request
     },
   });
-  console.log("response received", response);
+
   const data = await response.json();
-  console.log("data", data);
+
   return data;
 }
 
 const Dashboard: React.FC = () => {
   const { organizations } = useLoaderData();
-  console.log("organizations in dashboard", organizations);
 
   // Conditionally render the components based on the user's organizations
   return (
@@ -31,20 +31,17 @@ const Dashboard: React.FC = () => {
       ) : (
         <div>
           <h2>Your Organizations</h2>
-          <ul>
+          <div>
             {organizations?.map(
-              ({ org: { name, description } }: any, index: number) => (
-                <li key={index}>
-                  <h3>{name}</h3>
-                  <p>{description}</p>
-                </li>
+              ({ org: { id, name, description } }: any, index: number) => (
+                <OrganizationCard key={index} id={id} name={name} description={description} />
               )
             )}
-          </ul>
+          </div>
         </div>
       )}
     </DashboardLayout>
   );
 };
 
-export default Dashboard
+export default Dashboard;
