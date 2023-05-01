@@ -105,7 +105,9 @@ exports.joinOrganization = async (req, res) => {
   try {
     console.log('START GET ORG DATA');
     const orgId = req.params.orgId;
+    console.log('SERVER-orgId', orgId);
     const userId = req.user.id;
+    console.log('SERVER-userId', userId);
 
     const organization = await Organization.findById(orgId);
 

@@ -10,6 +10,6 @@ const { authenticateJWT } = require("../middleware/authenticateJWT");
 router.post("/create", authenticateJWT, createOrganization);
 router.post("/join", authenticateJWT, joinOrganization);
 router.post("/update-join-request", authenticateJWT, updateJoinRequest);
-router.get("/:orgId/data", authenticateJWT, getOrganizationData);
+router.get("/:orgId", authenticateJWT, getOrganizationData);
 
 module.exports = router;
