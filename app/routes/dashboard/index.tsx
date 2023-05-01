@@ -1,7 +1,6 @@
 import React from "react";
 import DashboardLayout from "~/components/Dashboardlayout";
 import { useLoaderData } from "@remix-run/react";
-import { fetch } from "@remix-run/node";
 import OrganizationCard from "~/components/OrganizationCard";
 
 export async function loader({ request }: LoaderContext) {
@@ -33,8 +32,8 @@ const Dashboard: React.FC = () => {
           <h2>Your Organizations</h2>
           <div>
             {organizations?.map(
-              ({ org: { id, name, description } }: any, index: number) => (
-                <OrganizationCard key={index} id={id} name={name} description={description} />
+              ({ org: { _id, name, description } }: any, index: number) => (
+                <OrganizationCard key={index} id={_id} name={name} description={description} />
               )
             )}
           </div>

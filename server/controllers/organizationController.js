@@ -103,6 +103,7 @@ exports.joinOrganization = async (req, res) => {
   
   exports.getOrganizationData = async (req, res) => {
   try {
+    console.log('START GET ORG DATA');
     const orgId = req.params.orgId;
     const userId = req.user.id;
 
