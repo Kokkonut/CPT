@@ -14,12 +14,12 @@ const JoinOrg: React.FC<JoinOrgModalProps> = ({ closeModal }) => {
 
   async function handleSubmit(event: any) {
     event.preventDefault();
-    const response = await fetch('/api/organizations/join', {
+    const response = await fetch('/api/org/join', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ orgId: event.currentTarget.orgId.value }),
+      body: JSON.stringify({ orgName: event.currentTarget.orgName.value }),
     });
 
     if (response.ok) {
@@ -42,11 +42,11 @@ const JoinOrg: React.FC<JoinOrgModalProps> = ({ closeModal }) => {
             <Form method="post" onSubmit={handleSubmit} className="space-y-4">
               <div className="flex flex-col">
                 <label htmlFor="orgId" className="font-medium">
-                  Organization ID:
+                  Organization Name:
                 </label>
                 <input
-                  id="orgId"
-                  name="orgId"
+                  id="orgName"
+                  name="orgName"
                   type="text"
                   required
                   className="border border-gray-300 p-2 rounded"

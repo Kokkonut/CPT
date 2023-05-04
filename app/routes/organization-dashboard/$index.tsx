@@ -17,6 +17,7 @@ export async function loader({ request, params }: LoaderContext) {
   }
 
   const orgData = await response.json();
+  console.log('ORGDATA', orgData)
   return orgData;
 }
 

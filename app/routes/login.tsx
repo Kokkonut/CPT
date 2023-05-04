@@ -27,12 +27,6 @@ export default function Login() {
       body: JSON.stringify(formData),
     });
     if (res.ok) {
-        //TODO: Set cookie
-        //REMOVED WHILE TESTING HTTP ONLY COOKIE
-        // const { token } = await res.json();
-        // localStorage.setItem('token', token)
-        // console.log(res.headers.get('Set-Cookie'))
-        // document.cookie = res.headers.get('Set-Cookie') as string;
       window.location.href = "/dashboard";
     }
   }
@@ -73,7 +67,7 @@ export default function Login() {
         <div className="mb-4">
           <button
             type="submit"
-            className="w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+            className="button-primary"
           >
             Login
           </button>

@@ -7,6 +7,8 @@ interface CreateOrgModalProps {
 function CreateOrg({ closeModal }: CreateOrgModalProps) {
   const [formData, setFormData] = useState({ name: '', description: '' });
 
+  //TODO: swap to remix <Form> component
+
   const handleFormSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
