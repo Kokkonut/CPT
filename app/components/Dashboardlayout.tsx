@@ -25,8 +25,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   // ...
   return (
     <div className="flex flex-col h-screen">
-      <header className="flex justify-between items-center bg-gray-900 text-white px-4 py-3">
-        <div className="logo">LOGO</div>
+      <header className="flex justify-between items-center bg-slate-700 text-white">
+        <div className="logo text-3xl">TaskMaster</div>
         <nav className="flex items-center justify-center flex-grow space-x-6">
           {/* Change userData to openCreateOrg and openJoinOrg */}
           {openCreateOrg && openJoinOrg && (
@@ -42,7 +42,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         </nav>
         <div className="user-icon">{/* ... */}</div>
       </header>
-      <div className="flex-grow">{children}</div>
+      <div className="flex-grow bg-slate-200">{children}</div>
 
       {/* Modals */}
       {showCreateOrg && <CreateOrg closeModal={closeCreateOrg} />}

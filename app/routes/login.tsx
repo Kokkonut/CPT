@@ -32,12 +32,13 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="min-h-screen bg-slate-700 flex items-center justify-center flex-col ">
+      <header className="text-6xl font-bold text-white fixed top-0">TaskMaster</header>
       <form
         className="bg-white p-8 rounded-lg shadow-md w-full md:w-1/2 lg:w-1/3"
         onSubmit={handleSubmit}
       >
-        <h1 className="text-2xl mb-6 text-center">Login</h1>
+        <h1 className="text-2xl mb-6 text-center drop-shadow-lg">Login</h1>
         <div className="mb-4">
           <label htmlFor="email" className="block text-sm mb-2">
             Email
