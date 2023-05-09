@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import DashboardLayout from "~/components/Dashboardlayout";
+import DashboardLayout from "~/layouts/Dashboardlayout";
 import { Link, useLoaderData } from "@remix-run/react";
 import OrganizationCard from "~/components/OrganizationCard";
-import CreateOrg from "~/routes/dashboard/create-org";
-import JoinOrg from "~/routes/dashboard/join-org";
+// import CreateOrg from "~/routes/dashboard/create-org";
+// import JoinOrg from "~/routes/dashboard/join-org";
 
 export async function loader({ request }: LoaderContext) {
   const cookie = request.headers.get("cookie");

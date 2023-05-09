@@ -7,7 +7,8 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import { Outlet } from "@remix-run/react";
-import stylesheet from "~/tailwind.css";
+import stylesheet from "~/index.css";
+import satoshi from "~/satoshi.css";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -18,6 +19,7 @@ export const meta: MetaFunction = () => ({
 export function links() {
   return [
     { rel: "stylesheet", href: stylesheet },
+    { rel: "stylesheet", href: satoshi },
   ];
 }
 
