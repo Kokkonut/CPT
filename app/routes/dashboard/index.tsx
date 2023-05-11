@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import DashboardLayout from "~/layouts/Dashboardlayout";
 import { Link, useLoaderData } from "@remix-run/react";
 import OrganizationCard from "~/components/OrganizationCard";
-import UserDataContext from "~/context/UserDataContext";
-// import CreateOrg from "~/routes/dashboard/create-org";
-// import JoinOrg from "~/routes/dashboard/join-org";
+import { useSetUserData } from "~/context/UserDataContext";
 
 export async function loader({ request }: LoaderContext) {
   const cookie = request.headers.get("cookie");
@@ -22,46 +20,24 @@ export async function loader({ request }: LoaderContext) {
 }
 
 const Dashboard: React.FC = () => {
-  const userData  = useLoaderData();
-  console.log('USER DATA FROM LOADER', userData);
-  const { organizations } = useLoaderData();
+  const data = useLoaderData();
+  const setUserData = useSetUserData();
+
+  useEffect(() => {
+    setUserData(data);
+  }, [data, setUserData]);
+
+  console.log('USER DATA FROM LOADER', data);
+  const { organizations } = data;
   console.log('ORGANIZATIONS FROM LOADER', organizations);
 
-  const [showCreateOrg, setShowCreateOrg] = useState(false);
-  const [showJoinOrg, setShowJoinOrg] = useState(false);
-
-  function openCreateOrg() {
-    setShowCreateOrg(true);
-  }
-
-  function closeCreateOrg() {
-    setShowCreateOrg(false);
-  }
-
-  function openJoinOrg() {
-    setShowJoinOrg(true);
-  }
-
-  function closeJoinOrg() {
-    setShowJoinOrg(false);
-  }
-
   return (
-    <UserDataContext.Provider value = {userData} >
-    <DashboardLayout
-      showCreateOrg={showCreateOrg}
-      closeCreateOrg={closeCreateOrg}
-      showJoinOrg={showJoinOrg}
-      closeJoinOrg={closeJoinOrg}
-      openCreateOrg={openCreateOrg}
-      openJoinOrg={openJoinOrg}
-      userData={userData}
-    >
+    <DashboardLayout>
       {organizations && organizations.length === 0 ? (
         <div>
           <h2>
             Welcome! Please{" "}
-            <Link to="#" onClick={openCreateOrg}>
+            <Link to="#">
               create
             </Link>{" "}
             or join an organization.
@@ -85,7 +61,6 @@ const Dashboard: React.FC = () => {
         </div>
       )}
     </DashboardLayout>
-    </UserDataContext.Provider>
   );
 };
 
