@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 
 export interface UserData {
     firstName: string;
@@ -8,15 +8,24 @@ export interface UserData {
 const UserDataContext = createContext<[UserData | null, (userData: UserData | null) => void]>([
     null,
     () => {},
-  ]);
-  
-  export function useUserData() {
+]);
+
+export function useUserData() {
     return useContext(UserDataContext);
-  }
-  
-  export function useSetUserData() {
+}
+
+export function useSetUserData() {
     const [, setUserData] = useContext(UserDataContext);
     return setUserData;
-  }
-  
-  export default UserDataContext;
+}
+
+export function UserDataProvider({ children }: { children: ReactNode }) {
+    const [userData, setUserData] = useState<UserData | null>(null);
+    return (
+        <UserDataContext.Provider value={[userData, setUserData]}>
+            {children}
+        </UserDataContext.Provider>
+    );
+}
+
+export default UserDataContext;

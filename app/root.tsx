@@ -7,9 +7,11 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import { Outlet } from "@remix-run/react";
-import UserDataContext from "./context/UserDataContext";
+import UserDataContext from "~/context/UserDataContext";
 import stylesheet from "~/index.css";
 import satoshi from "~/satoshi.css";
+import { useState } from "react";
+import { UserDataProvider } from "~/context/UserDataContext";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -24,9 +26,10 @@ export function links() {
   ];
 }
 
-export default function Root({ userData }) {
+export default function Root() {
+
   return (
-    <UserDataContext.Provider value={userData}>
+    <UserDataProvider>
       <html lang="en">
         <head>
           <Meta />
@@ -39,6 +42,6 @@ export default function Root({ userData }) {
           <LiveReload />
         </body>
       </html>
-    </UserDataContext.Provider>
+    </UserDataProvider>
   );
 }

@@ -6,8 +6,8 @@ import  UserDataContext  from '../context/UserDataContext';
 // import UserOne from '../images/user/user-01.png';
 
 const DropdownUser = () => {
-  const User = useContext(UserDataContext);
-  console.log('PASSED USER CONTEXT', User);
+  const [user] = useContext(UserDataContext);
+  console.log('PASSED USER CONTEXT', user);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef<any>(null);
@@ -49,7 +49,7 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            {User?.firstName} {User?.lastName}
+            {user?.firstName} {user?.lastName}
           </span>
           <span className="block text-xs">UX Designer</span>
         </span>
