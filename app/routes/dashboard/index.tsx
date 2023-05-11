@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import DashboardLayout from "~/layouts/Dashboardlayout";
 import { Link, useLoaderData } from "@remix-run/react";
 import OrganizationCard from "~/components/OrganizationCard";
+import UserDataContext from "~/context/UserDataContext";
 // import CreateOrg from "~/routes/dashboard/create-org";
 // import JoinOrg from "~/routes/dashboard/join-org";
 
@@ -15,12 +16,16 @@ export async function loader({ request }: LoaderContext) {
   });
 
   const data = await response.json();
+  console.log('XXXXXDATA FROM LOADERXXXX', data);
 
   return data;
 }
 
 const Dashboard: React.FC = () => {
+  const userData  = useLoaderData();
+  console.log('USER DATA FROM LOADER', userData);
   const { organizations } = useLoaderData();
+  console.log('ORGANIZATIONS FROM LOADER', organizations);
 
   const [showCreateOrg, setShowCreateOrg] = useState(false);
   const [showJoinOrg, setShowJoinOrg] = useState(false);
@@ -42,6 +47,7 @@ const Dashboard: React.FC = () => {
   }
 
   return (
+    <UserDataContext.Provider value = {userData} >
     <DashboardLayout
       showCreateOrg={showCreateOrg}
       closeCreateOrg={closeCreateOrg}
@@ -49,6 +55,7 @@ const Dashboard: React.FC = () => {
       closeJoinOrg={closeJoinOrg}
       openCreateOrg={openCreateOrg}
       openJoinOrg={openJoinOrg}
+      userData={userData}
     >
       {organizations && organizations.length === 0 ? (
         <div>
@@ -78,6 +85,7 @@ const Dashboard: React.FC = () => {
         </div>
       )}
     </DashboardLayout>
+    </UserDataContext.Provider>
   );
 };
 

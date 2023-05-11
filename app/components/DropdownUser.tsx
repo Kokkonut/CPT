@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import  UserDataContext  from '../context/UserDataContext';
 
 // import UserOne from '../images/user/user-01.png';
 
 const DropdownUser = () => {
+  const User = useContext(UserDataContext);
+  console.log('PASSED USER CONTEXT', User);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef<any>(null);
@@ -45,7 +49,7 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            {User?.firstName} {User?.lastName}
           </span>
           <span className="block text-xs">UX Designer</span>
         </span>

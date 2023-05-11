@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import { Outlet } from "@remix-run/react";
+import UserDataContext from "./context/UserDataContext";
 import stylesheet from "~/index.css";
 import satoshi from "~/satoshi.css";
 
@@ -23,19 +24,21 @@ export function links() {
   ];
 }
 
-export default function Root() {
+export default function Root({ userData }) {
   return (
-    <html lang="en">
-      <head>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
+    <UserDataContext.Provider value={userData}>
+      <html lang="en">
+        <head>
+          <Meta />
+          <Links />
+        </head>
+        <body>
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </body>
+      </html>
+    </UserDataContext.Provider>
   );
 }
