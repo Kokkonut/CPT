@@ -1,20 +1,40 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 // import { Link } from "@remix-run/react";
-import storage from "local-storage-fallback";
+// import storage from "local-storage-fallback";
 // import Logo from '../images/logo/logo.svg';
-import SidebarLinkGroup from "./SidebarLinkGroup";
-import { AuthSvg, HamburgerSvg } from "../images/svg/svgComponents";
+// import SidebarLinkGroup from "./SidebarLinkGroup";
+import { HamburgerSvg } from "../images/svg/svgComponents";
 import DashboardSubMenu from "./SubMenus/DashboardMenu";
+import OrgDashboardSubMenu from "./SubMenus/OrgDashboardMenu";
 
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
 }
 
+
+
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
+
+  //Logic for sidebar sub menus
   const location = useLocation();
   const { pathname } = location;
+
+  let Menu;
+
+  switch (pathname.split("/")[1]) {
+    case 'dashboard':
+      Menu = DashboardSubMenu;
+      break;
+      case 'auth':
+      case 'org':
+      Menu = OrgDashboardSubMenu;
+      break;
+    default:
+      Menu = () => null;
+  }
+
 
   const trigger = useRef<any>(null);
   const sidebar = useRef<any>(null);
@@ -45,7 +65,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     return () => document.removeEventListener("keydown", keyHandler);
   });
 
-
   return (
     <aside
       ref={sidebar}
@@ -73,7 +92,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       {/* <!-- SIDEBAR HEADER --> */}
 
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
-        {/* <!-- Sidebar Menu --> */}
+  
         <nav className="mt-5 py-4 px-4 lg:mt-9 lg:px-6">
           {/* <!-- Menu Group --> */}
           <div>
@@ -81,12 +100,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               MENU
             </h3>
 
-          {/* Add Sub Menus here */}
-        <DashboardSubMenu />
-
+            {/* Add Sub Menus here */}
+          <Menu />
           </div>
         </nav>
-        {/* <!-- Sidebar Menu --> */}
+     
       </div>
     </aside>
   );
