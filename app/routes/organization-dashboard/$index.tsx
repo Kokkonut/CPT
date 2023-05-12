@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLoaderData } from '@remix-run/react';
-import OrganizationDashboardLayout from '~/components/OrganizationDashboardLayout';
+// import OrganizationDashboardLayout from '~/components/OrganizationDashboardLayout';
+import DashboardLayout from '~/layouts/Dashboardlayout';
 
 export async function loader({ request, params }: LoaderContext) {
   console.log('params', params);
@@ -26,11 +27,11 @@ const OrganizationDashboard: React.FC = () => {
   const orgData = useLoaderData();
 
   return (
-    <OrganizationDashboardLayout orgData={orgData}>
+    <DashboardLayout>
       {/* Add your organization dashboard content here */}
       <h1>Welcome to {orgData.name} Dashboard</h1>
       <p>Organization dashboard content goes here.</p>
-    </OrganizationDashboardLayout>
+    </DashboardLayout>
   );
 };
 
