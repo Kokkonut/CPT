@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form } from '@remix-run/react';
 import { useLoaderData } from '@remix-run/react';
+import UsersPending from '~/components/tables/UsersPending';
 
 import DashboardLayout from '~/layouts/Dashboardlayout';
 import Breadcrumb from '~/components/Breadcrumb';
@@ -21,12 +22,13 @@ function ManageUsers() {
     const { users, joinRequests } = useLoaderData();
     console.log('USERS', users);
     console.log('JOIN REQUESTS', joinRequests);
-    
+
 
 
     return (
         <DashboardLayout >
         <Breadcrumb pageName="Manage Users" />
+        <UsersPending joinRequests={joinRequests} />
         </DashboardLayout>
     )
 

@@ -42,7 +42,9 @@ exports.joinOrganization = async (req, res) => {
     const userId = req.user.id;
 
     //regex to make search case insensitive
-    const organization = await Organization.findOne({ name: { $regex: new RegExp(`^${orgName}$`, 'i') } });
+    const organization = await Organization.findOne({
+      name: { $regex: new RegExp(`^${orgName}$`, "i") },
+    });
 
     if (!organization) {
       return res.status(404).json({ message: "Organization not found" });
@@ -69,12 +71,10 @@ exports.joinOrganization = async (req, res) => {
     }
 
     if (hasPendingRequest) {
-      return res
-        .status(400)
-        .json({
-          message:
-            "You already have a pending join request for this organization",
-        });
+      return res.status(400).json({
+        message:
+          "You already have a pending join request for this organization",
+      });
     }
 
     // Create the join request
@@ -86,7 +86,6 @@ exports.joinOrganization = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 // @desc manage join request
 exports.updateJoinRequest = async (req, res) => {
@@ -135,21 +134,25 @@ exports.updateJoinRequest = async (req, res) => {
 // @desc    Get organization users
 exports.getOrganizationUsers = async (req, res) => {
   try {
-    const { orgId } = req.params;  // use req.params if orgId is a URL parameter
+    const { orgId } = req.params; // use req.params if orgId is a URL parameter
 
-    const organization = await Organization.findById(orgId).populate('employees').populate('joinRequests.user');
-    console.log('xxxORGANxxx', organization);
+    const organization = await Organization.findById(orgId)
+      .populate("employees")
+      .populate("joinRequests.user");
 
     if (!organization) {
       return res.status(404).json({ message: "Organization not found" });
     }
-    res.status(200).json({ users: organization.employees, joinRequests: organization.joinRequests });
+    res
+      .status(200)
+      .json({
+        users: organization.employees,
+        joinRequests: organization.joinRequests,
+      });
   } catch (err) {
-res.status(500).json({ message: err.message });
-    // res.status(500).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
-
 
 // @desc Detailed organization data
 exports.getOrganizationData = async (req, res) => {
