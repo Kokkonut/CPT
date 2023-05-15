@@ -5,7 +5,6 @@ const User = require("../models/User");
 // @desc    Get all organizations
 exports.createOrganization = async (req, res) => {
   try {
-    console.log("START CREATE ORG");
     const { name, description } = req.body;
     const userId = req.user.id;
 
@@ -39,11 +38,8 @@ exports.createOrganization = async (req, res) => {
 // @desc Join organization
 exports.joinOrganization = async (req, res) => {
   try {
-    console.log('JOIN REQUEST BODY!!!!!!!!!!!!', req.body)
     const { orgName } = req.body;
-    console.log('Join Request ORG NAME: ', { orgName })
     const userId = req.user.id;
-    console.log('Join Request USER ID: ', userId)
 
     //regex to make search case insensitive
     const organization = await Organization.findOne({ name: { $regex: new RegExp(`^${orgName}$`, 'i') } });
@@ -136,14 +132,30 @@ exports.updateJoinRequest = async (req, res) => {
   }
 };
 
+// @desc    Get organization users
+exports.getOrganizationUsers = async (req, res) => {
+  try {
+    const { orgId } = req.params;  // use req.params if orgId is a URL parameter
+
+    const organization = await Organization.findById(orgId).populate('employees').populate('joinRequests.user');
+    console.log('xxxORGANxxx', organization);
+
+    if (!organization) {
+      return res.status(404).json({ message: "Organization not found" });
+    }
+    res.status(200).json({ users: organization.employees, joinRequests: organization.joinRequests });
+  } catch (err) {
+res.status(500).json({ message: err.message });
+    // res.status(500).json({ message: err.message });
+  }
+};
+
+
 // @desc Detailed organization data
 exports.getOrganizationData = async (req, res) => {
   try {
-    console.log("START GET ORG DATA");
     const orgId = req.params.orgId;
-    console.log("SERVER-orgId", orgId);
     const userId = req.user.id;
-    console.log("SERVER-userId", userId);
 
     const organization = await Organization.findById(orgId);
 

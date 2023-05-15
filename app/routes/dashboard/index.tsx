@@ -14,7 +14,7 @@ export async function loader({ request }: LoaderContext) {
   });
 
   const data = await response.json();
-  console.log('XXXXXDATA FROM LOADERXXXX', data);
+
 
   return data;
 }
@@ -27,9 +27,9 @@ const Dashboard: React.FC = () => {
     setUserData(data);
   }, [data, setUserData]);
 
-  console.log('USER DATA FROM LOADER', data);
+
   const { organizations } = data;
-  console.log('ORGANIZATIONS FROM LOADER', organizations);
+
 
   return (
     <DashboardLayout>

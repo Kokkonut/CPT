@@ -32,8 +32,7 @@ exports.loginUser = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
       sameSite: isProduction ? "none" : undefined,
     });
-    console.log("token", token);
-    console.log('Set-Cookie:', res.get('Set-Cookie'));
+
     res.status(200).json({ message: "Login successful" });
     // res.json({ token });
   } catch (err) {
@@ -44,10 +43,9 @@ exports.loginUser = async (req, res) => {
 //signup  
 exports.signup = async (req, res) => {
   try {
-    console.log("req", req);
-    console.log("req.body", req.body);
+
     const { firstName, lastName, email, password } = req.body;
-    console.log(req.body);
+
     const user = new User({ firstName, lastName, email, password });
     await user.save();
     res.status(200).json({ message: "User created" });

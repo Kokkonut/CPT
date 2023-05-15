@@ -5,8 +5,8 @@ import { NavLink, useLocation } from "react-router-dom";
 // import Logo from '../images/logo/logo.svg';
 // import SidebarLinkGroup from "./SidebarLinkGroup";
 import { HamburgerSvg } from "../images/svg/svgComponents";
-import DashboardSubMenu from "./SubMenus/DashboardMenu";
-import OrgDashboardSubMenu from "./SubMenus/OrgDashboardMenu";
+import DashboardSubMenu from "~/components/SubMenus/DashboardMenu";
+import OrgDashboardSubMenu from "~/components/SubMenus/OrgDashboardMenu";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -18,6 +18,7 @@ interface SidebarProps {
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
   //Logic for sidebar sub menus
+  //Case MUST match part of the Route.
   const location = useLocation();
   const { pathname } = location;
 
@@ -28,7 +29,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       Menu = DashboardSubMenu;
       break;
       case 'auth':
-      case 'org':
+      case 'organization-dashboard':
       Menu = OrgDashboardSubMenu;
       break;
     default:

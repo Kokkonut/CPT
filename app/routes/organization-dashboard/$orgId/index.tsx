@@ -4,9 +4,9 @@ import { useLoaderData } from '@remix-run/react';
 import DashboardLayout from '~/layouts/Dashboardlayout';
 
 export async function loader({ request, params }: LoaderContext) {
-  console.log('params', params);
   // Fetch the organization data
-  const response = await fetch(`http://localhost:3000/api/org/${params.index}`, {
+  const response = await fetch(`http://localhost:3000/api/org/${params.orgId}`, {
+  // const response = await fetch(`http://localhost:3000/api/org/${params.index}`, {
     headers: {
       cookie: request.headers.get('cookie'), // Pass the cookies along with the request
     },
@@ -18,7 +18,6 @@ export async function loader({ request, params }: LoaderContext) {
   }
 
   const orgData = await response.json();
-  console.log('ORGDATA', orgData)
   return orgData;
 }
 

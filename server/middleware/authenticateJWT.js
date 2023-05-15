@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 exports.authenticateJWT = (req, res, next) => {
   const token = req.cookies.token;
-  console.log("Token from cookie:", token);
+
 
   if (!token) {
     return res.status(403).json({ message: "No token provided" });
@@ -14,7 +14,7 @@ exports.authenticateJWT = (req, res, next) => {
       return res.status(403).json({ message: "Failed to authenticate token" });
     }
 
-    console.log("Decoded user object:", decoded);
+
     req.user = decoded;
     next();
   });

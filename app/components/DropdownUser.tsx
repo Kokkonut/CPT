@@ -7,7 +7,6 @@ import  UserDataContext  from '../context/UserDataContext';
 
 const DropdownUser = () => {
   const [user] = useContext(UserDataContext);
-  console.log('PASSED USER CONTEXT', user);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef<any>(null);

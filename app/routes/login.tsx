@@ -17,7 +17,6 @@ export default function Login() {
 
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
-    console.log("form data", formData);
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: {

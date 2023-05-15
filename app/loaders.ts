@@ -6,7 +6,6 @@ export async function fetchUserData() {
   
       if (response.ok) {
         const data = await response.json();
-        console.log('data from loaders', data)
         return data;
       } else {
         console.error("Failed to fetch user data");
