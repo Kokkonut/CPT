@@ -35,6 +35,30 @@ exports.createOrganization = async (req, res) => {
   }
 };
 
+// @desc Search organizations
+exports.searchOrganizations = async (req, res) => {
+  try {
+    const { query } = req.query;
+
+    //regex to make search case insensitive and search for partial matches
+    const organizations = await Organization.find({
+      name: { $regex: new RegExp(query, "i") },
+    });
+
+    if (!organizations) {
+      return res.status(404).json({ message: "No organizations found" });
+    }
+
+    // We only need to return the organization names for the search
+    const orgNames = organizations.map(org => org.name);
+
+    return res.status(200).json(orgNames);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+
 // @desc Join organization
 exports.joinOrganization = async (req, res) => {
   try {
