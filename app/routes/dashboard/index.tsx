@@ -45,7 +45,7 @@ const Dashboard: React.FC = () => {
         </div>
       ) : (
         <div>
-          <h2>Your Organizations</h2>
+     
           <div>
             {organizations?.map(
               ({ org: { _id, name, description } }: any, index: number) => (
