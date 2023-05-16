@@ -92,7 +92,7 @@ exports.updateJoinRequest = async (req, res) => {
   try {
     const { orgId, requestId, status } = req.body;
 
-    if (!["approved", "rejected"].includes(status)) {
+    if (!["accepted", "rejected"].includes(status)) {
       return res.status(400).json({ message: "Invalid status" });
     }
 
@@ -110,7 +110,7 @@ exports.updateJoinRequest = async (req, res) => {
 
     joinRequest.status = status;
 
-    if (status === "approved") {
+    if (status === "accepted") {
       organization.employees.push(joinRequest.user);
 
       // Find the user who made the join request
@@ -118,6 +118,10 @@ exports.updateJoinRequest = async (req, res) => {
 
       // Add the organization to the user's organizations array with the role of "employee"
       user.organizations.push({ org: orgId, role: "employee" });
+
+      // Delete the join request after it has been accepted or rejected
+      organization.joinRequests.pull(requestId);
+
 
       // Save the updated user to the database
       await user.save();
@@ -138,6 +142,8 @@ exports.getOrganizationUsers = async (req, res) => {
 
     const organization = await Organization.findById(orgId)
       .populate("employees")
+      .populate("owner")
+      .populate("supervisors")
       .populate("joinRequests.user");
 
     if (!organization) {
@@ -147,6 +153,8 @@ exports.getOrganizationUsers = async (req, res) => {
       .status(200)
       .json({
         users: organization.employees,
+        owner: organization.owner,
+        supervisors: organization.supervisors,
         joinRequests: organization.joinRequests,
       });
   } catch (err) {
@@ -154,7 +162,7 @@ exports.getOrganizationUsers = async (req, res) => {
   }
 };
 
-// @desc Detailed organization data
+// @desc Detailed organization data NOT USED CUURENTLY
 exports.getOrganizationData = async (req, res) => {
   try {
     const orgId = req.params.orgId;
