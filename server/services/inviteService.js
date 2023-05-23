@@ -19,7 +19,7 @@ const sendInvite = async (email, inviteId) => {
     html: `
       <p>You have been invited to join our platform.</p>
       <p>Please click on the following link to join:</p>
-      <a href="http://localhost:3000/signup?invite_id=${inviteId}">Join</a>
+      <a href="http://localhost:3000/emailSignup?invite_id=${inviteId}">Join</a>
     `
   };
 

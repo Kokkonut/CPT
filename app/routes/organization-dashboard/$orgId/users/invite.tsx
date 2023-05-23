@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
-import { Form } from '@remix-run/react';
+import { Form, useLocation } from '@remix-run/react';
+import { useParams } from '@remix-run/react';
 import DashboardLayout from '~/layouts/Dashboardlayout';
 import Breadcrumb from '~/components/Breadcrumb';
 
 function InviteUsers() {
   const [email, setEmail] = useState("");
+  const location = useLocation();
+  const { pathname } = location;
+  const  organizationId  = pathname.split("/")[2];
+  console.log('ORGID', organizationId);
 
   async function handleSubmit(event: { preventDefault: () => void; }) {
     event.preventDefault();
     
     // This should be replaced with your actual API endpoint
-    const response = await fetch('/api/invite/invite', {
+    const response = await fetch(`/api/invite/${organizationId}/invite`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { NavLink, useLocation } from "@remix-run/react";
 import storage from "local-storage-fallback";
 import SidebarLinkGroup from "../SidebarLinkGroup";
-import { AuthSvg, ProfileSvg } from "../../images/svg/svgComponents";
+import { ProfileSvg } from "../../images/svg/svgComponents";
 
 const OrgDashboardMenu: React.FC = () => {
     const location = useLocation();
