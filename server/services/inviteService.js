@@ -15,10 +15,11 @@ const sendInvite = async (email, inviteId) => {
     from: 'mesh.app.invite@gmail.com', 
     to: email,
     subject: 'You are invited!',
+    // TODO: Change this to the actual link
     html: `
       <p>You have been invited to join our platform.</p>
       <p>Please click on the following link to join:</p>
-      <a href="http://your-app.com/signup?invite_id=${inviteId}">Join</a>
+      <a href="http://localhost:3000/signup?invite_id=${inviteId}">Join</a>
     `
   };
 

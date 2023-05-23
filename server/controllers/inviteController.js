@@ -1,17 +1,22 @@
-const sendInvite = require('../services/inviteService'); // Assume you have sendInvite service
+const sendInvite = require('../services/inviteService');
+const Invite = require('../models/Invite');
 
 exports.inviteUser = async (req, res) => {
-  const { email } = req.body;
+  const { email, organizationId } = req.body;
   if (!email) {
     return res.status(400).json({ message: "Email is required" });
   }
 
   try {
-    // Here you would generate your inviteId or fetch the required organization details.
-    const inviteId = "Generated_Invite_Id";
+    // Create the invite document
+    const invite = new Invite({
+      email: email,
+      organization: organizationId,
+    });
+    await invite.save();
 
-    await sendInvite(email, inviteId);
-    
+    await sendInvite(email, invite._id);
+
     return res.status(200).json({ message: "Invitation sent" });
   } catch (error) {
     console.error(error);
