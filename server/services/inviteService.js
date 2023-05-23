@@ -7,7 +7,7 @@ const sendInvite = async (email, inviteId) => {
     service: 'gmail', 
     auth: {
       user: 'mesh.app.invite@gmail.com', 
-      pass: 'Thunder1969'
+      pass: 'fordlhqizhuweplu'
     }
   });
 

@@ -6,11 +6,11 @@ import Breadcrumb from '~/components/Breadcrumb';
 function InviteUsers() {
   const [email, setEmail] = useState("");
 
-  async function handleSubmit(event) {
+  async function handleSubmit(event: { preventDefault: () => void; }) {
     event.preventDefault();
     
     // This should be replaced with your actual API endpoint
-    const response = await fetch('/api/invite', {
+    const response = await fetch('/api/invite/invite', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
