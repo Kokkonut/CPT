@@ -7,7 +7,11 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import { Outlet } from "@remix-run/react";
-import stylesheet from "~/tailwind.css";
+import UserDataContext from "~/context/UserDataContext";
+import stylesheet from "~/index.css";
+import satoshi from "~/satoshi.css";
+import { useState } from "react";
+import { UserDataProvider } from "~/context/UserDataContext";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -18,22 +22,26 @@ export const meta: MetaFunction = () => ({
 export function links() {
   return [
     { rel: "stylesheet", href: stylesheet },
+    { rel: "stylesheet", href: satoshi },
   ];
 }
 
 export default function Root() {
+
   return (
-    <html lang="en">
-      <head>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
+    <UserDataProvider>
+      <html lang="en">
+        <head>
+          <Meta />
+          <Links />
+        </head>
+        <body>
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload port={8002}/>
+        </body>
+      </html>
+    </UserDataProvider>
   );
 }

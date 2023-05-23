@@ -1,7 +1,8 @@
-import React from "react";
-import DashboardLayout from "~/components/Dashboardlayout";
-import { useLoaderData } from "@remix-run/react";
+import React, { useEffect } from "react";
+import DashboardLayout from "~/layouts/Dashboardlayout";
+import { Link, useLoaderData } from "@remix-run/react";
 import OrganizationCard from "~/components/OrganizationCard";
+import { useSetUserData } from "~/context/UserDataContext";
 
 export async function loader({ request }: LoaderContext) {
   const cookie = request.headers.get("cookie");
@@ -14,26 +15,46 @@ export async function loader({ request }: LoaderContext) {
 
   const data = await response.json();
 
+
   return data;
 }
 
 const Dashboard: React.FC = () => {
-  const { organizations } = useLoaderData();
+  const data = useLoaderData();
+  const setUserData = useSetUserData();
 
-  // Conditionally render the components based on the user's organizations
+  useEffect(() => {
+    setUserData(data);
+  }, [data, setUserData]);
+
+
+  const { organizations } = data;
+
+
   return (
     <DashboardLayout>
       {organizations && organizations.length === 0 ? (
         <div>
-          <h2>Welcome! Please create or join an organization.</h2>
+          <h2>
+            Welcome! Please{" "}
+            <Link to="#">
+              create
+            </Link>{" "}
+            or join an organization.
+          </h2>
         </div>
       ) : (
         <div>
-          <h2>Your Organizations</h2>
+     
           <div>
             {organizations?.map(
               ({ org: { _id, name, description } }: any, index: number) => (
-                <OrganizationCard key={index} id={_id} name={name} description={description} />
+                <OrganizationCard
+                  key={index}
+                  id={_id}
+                  name={name}
+                  description={description}
+                />
               )
             )}
           </div>

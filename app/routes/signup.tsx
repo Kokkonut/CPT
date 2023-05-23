@@ -19,7 +19,6 @@ export default function Signup() {
 
   async function handleSubmit(e: { preventDefault: () => void; }) {
       e.preventDefault();
-      console.log('form data', formData);
       const res = await fetch("/api/auth/signup", {
           method: "POST",
           headers: {
@@ -35,7 +34,8 @@ export default function Signup() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="min-h-screen bg-slate-700 flex items-center justify-center flex-col">
+      <header className="text-6xl font-bold text-white fixed top-0">TaskMaster</header>
       <form className="bg-white p-8 rounded-lg shadow-md w-full md:w-1/2 lg:w-1/3" onSubmit={handleSubmit}>
         <h1 className="text-2xl mb-6 text-center">Signup</h1>
         <div className="mb-4">

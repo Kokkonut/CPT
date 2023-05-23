@@ -8,9 +8,9 @@ interface IndexLayoutProps {
 
 export default function IndexLayout({ children }: IndexLayoutProps) {
   const location = useLocation();
-  console.log(location);
+
   const isIndex = location.pathname === "/";
-  console.log(isIndex);
+
 
   return (
     <div className={`bg-blue-500 min-h-screen ${isIndex ? "" : "hidden"}`}>
