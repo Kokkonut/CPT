@@ -3,8 +3,10 @@ import DashboardLayout from "~/layouts/Dashboardlayout";
 import { Link, useLoaderData } from "@remix-run/react";
 import OrganizationCard from "~/components/OrganizationCard";
 import { useSetUserData } from "~/context/UserDataContext";
+import { withAuthentication } from "~/helpers/withAuth";
 
-export async function loader({ request }: LoaderContext) {
+// Use the wrapper function to wrap your loader function
+export let loader: LoaderFunction = withAuthentication(async ({ request }) => {
   const cookie = request.headers.get("cookie");
 
   const response = await fetch("http://localhost:3000/api/user/data", {
@@ -15,9 +17,8 @@ export async function loader({ request }: LoaderContext) {
 
   const data = await response.json();
 
-
   return data;
-}
+});
 
 const Dashboard: React.FC = () => {
   const data = useLoaderData();
