@@ -219,3 +219,44 @@ exports.getOrganizationData = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+//@ desc remove user from organization
+exports.removeUser = async (req, res) => {
+  const { orgId, userId } = req.params;
+
+  if (!orgId || !userId) {
+      return res.status(400).json({ message: "Organization and User IDs are required" });
+  }
+
+  try {
+      const organization = await Organization.findById(orgId);
+      const user = await User.findById(userId);
+
+      if (!organization || !user) {
+          return res.status(404).json({ message: "Organization or User not found" });
+      }
+
+      // Remove user from organization's employees and supervisors
+      ["employees", "supervisors"].forEach(role => {
+          const userIndex = organization[role].indexOf(userId);
+          if (userIndex > -1) {
+              organization[role].splice(userIndex, 1);
+          }
+      });
+
+      // Remove organization from user's organizations
+      const orgIndex = user.organizations.indexOf(orgId);
+      if (orgIndex > -1) {
+          user.organizations.splice(orgIndex, 1);
+      }
+
+      await organization.save();
+      await user.save();
+
+      return res.status(200).json({ message: "User removed from organization" });
+
+  } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
