@@ -42,19 +42,28 @@ exports.loginUser = async (req, res) => {
   }
 };
 
+
 //signup  
 exports.signup = async (req, res) => {
   try {
-
     const { firstName, lastName, email, password } = req.body;
 
+    // Create the new user
     const user = new User({ firstName, lastName, email, password });
     await user.save();
-    res.status(200).json({ message: "User created" });
+
+    // Create a JWT for the user
+    const token = jwt.sign({ userId: user._id }, 'secretKey', { expiresIn: '1h' }); // Use your secret key here and set the expiration time as per your requirements
+
+    // Set the JWT in an HttpOnly cookie
+    res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }); // 1 hour cookie
+
+    res.status(200).json({ message: "User created", token: token });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
 
 //signup with invite
 exports.signupWithInvite = async (req, res) => {
@@ -73,7 +82,6 @@ exports.signupWithInvite = async (req, res) => {
 
     // Create the new user
     const user = new User({ firstName, lastName, email, password });
-    console.log('xxxUSERxxx', user)
     await user.save();
 
     // Add the user to the organization directly
@@ -84,7 +92,13 @@ exports.signupWithInvite = async (req, res) => {
     // Remove the used invite
     await invite.deleteOne();
 
-    res.status(200).json({ message: "User created and added to organization" });
+    // Create a JWT for the user
+    const token = jwt.sign({ userId: user._id }, 'secretKey', { expiresIn: '1h' }); // Use your secret key here and set the expiration time as per your requirements
+
+    // Set the JWT in an HttpOnly cookie
+    res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }); // 1 hour cookie
+
+    res.status(200).json({ message: "User created and added to organization", token: token });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: err.message });
