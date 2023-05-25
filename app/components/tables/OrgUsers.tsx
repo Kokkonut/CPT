@@ -5,18 +5,11 @@ const OrgUsers = ({ users, owner, supervisors }) => {
   const { orgId } = useParams();
 
   // This function will be called when the "Remove" button is clicked
-  const handleRemoveUser = async (userId) => {
+  const handleRemoveUser = async (userId: any) => {
     try {
-      // Make a POST request to the back-end API to remove the user from the organization
-      const response = await fetch("/api/org/remove-user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          orgId,
-          userId,
-        }),
+      // Make a DELETE request to the back-end API to remove the user from the organization
+      const response = await fetch(`/api/org/${orgId}/user/${userId}`, {
+        method: "DELETE",
       });
 
       if (response.ok) {
@@ -123,43 +116,89 @@ const OrgUsers = ({ users, owner, supervisors }) => {
 
         {/* EMPLOYEES */}
         {Array.isArray(supervisors) &&
-          users.map((user, index) => (
-            <div
-              className="grid grid-cols-6 border-b border-stroke dark:border-strokedark bg-white dark:bg-boxdark"
-              key={index}
-            >
-              <div className="flex items-center gap-3 p-2.5 xl:p-5">
-                <p className="text-black dark:text-white">
-                  {user.firstName} {user.lastName}
-                </p>
-              </div>
-              <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <p className="text-black dark:text-white">{user.email}</p>
-              </div>
-              <div className="flex items-center justify-center p-2.5 xl:p-5  text-black dark:text-white">
-                <select className="form-select  bg-white dark:bg-boxdark">
-                <option value="employee" selected={user.role === "employee"}>
-                    Employee
-                  </option>
-                  <option
-                    value="supervisor"
-                    selected={user.role === "supervisor"}
+          users.map(
+            (
+              user: {
+                firstName:
+                  | string
+                  | number
+                  | boolean
+                  | React.ReactElement<
+                      any,
+                      string | React.JSXElementConstructor<any>
+                    >
+                  | React.ReactFragment
+                  | React.ReactPortal
+                  | null
+                  | undefined;
+                lastName:
+                  | string
+                  | number
+                  | boolean
+                  | React.ReactElement<
+                      any,
+                      string | React.JSXElementConstructor<any>
+                    >
+                  | React.ReactFragment
+                  | React.ReactPortal
+                  | null
+                  | undefined;
+                email:
+                  | string
+                  | number
+                  | boolean
+                  | React.ReactElement<
+                      any,
+                      string | React.JSXElementConstructor<any>
+                    >
+                  | React.ReactFragment
+                  | React.ReactPortal
+                  | null
+                  | undefined;
+                role: string;
+                _id: any;
+              },
+              index: React.Key | null | undefined
+            ) => (
+              <div
+                className="grid grid-cols-6 border-b border-stroke dark:border-strokedark bg-white dark:bg-boxdark"
+                key={index}
+              >
+                <div className="flex items-center gap-3 p-2.5 xl:p-5">
+                  <p className="text-black dark:text-white">
+                    {user.firstName} {user.lastName}
+                  </p>
+                </div>
+                <div className="flex items-center justify-center p-2.5 xl:p-5">
+                  <p className="text-black dark:text-white">{user.email}</p>
+                </div>
+                <div className="flex items-center justify-center p-2.5 xl:p-5  text-black dark:text-white">
+                  <select className="form-select  bg-white dark:bg-boxdark">
+                    <option
+                      value="employee"
+                      selected={user.role === "employee"}
+                    >
+                      Employee
+                    </option>
+                    <option
+                      value="supervisor"
+                      selected={user.role === "supervisor"}
+                    >
+                      Supervisor
+                    </option>
+                  </select>
+                </div>
+                <div className="items-center justify-center p-2.5 xl:p-5">
+                  <button
+                    className="inline-flex items-center justify-center rounded-md border border-meta-7 py-2 px-6 text-center font-medium text-meta-7 hover:bg-opacity-90 lg:px-8 xl:px-10"
+                    onClick={() => handleRemoveUser(user._id)}
                   >
-                    Supervisor
-                  </option>
-
-                </select>
+                    Remove
+                  </button>
+                </div>
               </div>
-              <div className="items-center justify-center p-2.5 xl:p-5">
-                <button
-                  className="inline-flex items-center justify-center rounded-md border border-meta-7 py-2 px-6 text-center font-medium text-meta-7 hover:bg-opacity-90 lg:px-8 xl:px-10"
-                  onClick={() => handleRemoveUser(user._id)}
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
-          ))}
+            )
+          )}
       </div>
     </>
   );

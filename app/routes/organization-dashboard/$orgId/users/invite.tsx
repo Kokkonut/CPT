@@ -14,7 +14,6 @@ function InviteUsers() {
   async function handleSubmit(event: { preventDefault: () => void; }) {
     event.preventDefault();
     
-    // This should be replaced with your actual API endpoint
     const response = await fetch(`/api/invite/${organizationId}/invite`, {
       method: 'POST',
       headers: {

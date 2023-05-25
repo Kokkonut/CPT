@@ -2,8 +2,24 @@ import { Link } from "@remix-run/react";
 import { useState, useEffect } from "react";
 import { useLocation } from "@remix-run/react";
 
+// Define a type for the form data
+type FormData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  inviteId: string | null;
+};
+
 export default function EmailSign() {
     const [orgName, setOrgName] = useState("");
+    const [formData, setFormData] = useState<FormData>({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      inviteId: null,
+    });
     const location = useLocation();
 
     useEffect(() => {
@@ -15,18 +31,11 @@ export default function EmailSign() {
             .then((data) => {
                 if (data && data.organizationName) {
                     setOrgName(data.organizationName);
+                    setFormData((prevState) => ({...prevState, inviteId: inviteID }));
                 }
             })
             .catch((err) => console.error(err));
     }, [location]);
-
-    const [formData, setFormData] = useState({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-    });
-
 
     function handleChange(e: { target: { name: any; value: any; }; }) {
         setFormData({
@@ -37,7 +46,7 @@ export default function EmailSign() {
 
     async function handleSubmit(e: { preventDefault: () => void; }) {
         e.preventDefault();
-        const res = await fetch("/api/auth/emailSignup", {
+        const res = await fetch("/api/auth/signupWithInvite", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -55,7 +64,7 @@ export default function EmailSign() {
         <div className="min-h-screen bg-slate-700 flex items-center justify-center flex-col">
             <header className="text-6xl font-bold text-white fixed top-0">TaskMaster</header>
             <form className="bg-white p-8 rounded-lg shadow-md w-full md:w-1/2 lg:w-1/3" onSubmit={handleSubmit}>
-                <h1 className="text-2xl mb-6 text-center">You have been invited to join {orgName}. please complete your signup to join.</h1>
+                <h1 className="text-2xl mb-6 text-center">You have been invited to join {orgName}. Please complete your signup to join.</h1>
                 <div className="mb-4">
                     <label htmlFor="name" className="block text-sm mb-2">
                         First Name
