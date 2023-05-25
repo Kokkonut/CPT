@@ -1,12 +1,11 @@
 import React from 'react';
 import { useLoaderData } from '@remix-run/react';
-// import OrganizationDashboardLayout from '~/components/OrganizationDashboardLayout';
 import DashboardLayout from '~/layouts/Dashboardlayout';
+import { withAuthentication } from '~/helpers/withAuth';
 
-export async function loader({ request, params }: LoaderContext) {
+export let loader = withAuthentication(async ({ request, params }: LoaderContext) => {
   // Fetch the organization data
   const response = await fetch(`http://localhost:3000/api/org/${params.orgId}`, {
-  // const response = await fetch(`http://localhost:3000/api/org/${params.index}`, {
     headers: {
       cookie: request.headers.get('cookie'), // Pass the cookies along with the request
     },
@@ -19,7 +18,7 @@ export async function loader({ request, params }: LoaderContext) {
 
   const orgData = await response.json();
   return orgData;
-}
+});
 
 
 const OrganizationDashboard: React.FC = () => {

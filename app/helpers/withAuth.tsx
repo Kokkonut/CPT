@@ -19,7 +19,10 @@ export const withAuthentication = (loadFunction: LoadFunction) => {
       try {
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET || "");
       } catch (err) {
-        return redirect("/login");
+              // Set a 'redirected' cookie before redirecting
+      let response = redirect("/login");
+      response.headers.append("Set-Cookie", "redirected=true; Path=/; HttpOnly");
+      return response;
       }
   
       return await loadFunction({ request, ...args });
