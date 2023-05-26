@@ -1,3 +1,4 @@
+import { LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/server-runtime";
 import jwt from "jsonwebtoken";
 
@@ -21,7 +22,7 @@ export const withAuthentication = (loadFunction: LoadFunction) => {
       } catch (err) {
               // Set a 'redirected' cookie before redirecting
       let response = redirect("/login");
-      response.headers.append("Set-Cookie", "redirected=true; Path=/; HttpOnly");
+      response.headers.append("Set-Cookie", "redirected=true; Path=/");
       return response;
       }
   
