@@ -9,6 +9,12 @@ exports.createProject = async (req, res) => {
     try {
         const { name, description, startDate, endDate, organizationId } = req.body;
         const userId = req.user.id;
+        console.log("NEW PROJECT: NAME:", name)
+        console.log("NEW PROJECT: DESCRIPTION:", description)
+        console.log("NEW PROJECT: START DATE:", startDate)
+        console.log("NEW PROJECT: END DATE:", endDate)
+        console.log("NEW PROJECT: ORGANIZATION ID:", organizationId)
+        console.log("NEW PROJECT: USER ID:", userId)
 
         const newProject = new Project({
             name,

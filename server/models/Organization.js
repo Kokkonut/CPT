@@ -28,8 +28,15 @@ const organizationSchema = new Schema({
         ref: 'User',
     }],
     projects: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Project',
+        project: {
+            type: Schema.Types.ObjectId,
+            ref: 'Project',
+        },
+        role: {
+            type: String,
+            enum: ["owner", "supervisor", "employee"],
+            default: "employee",
+        },
     }],
 
     joinRequests: [{

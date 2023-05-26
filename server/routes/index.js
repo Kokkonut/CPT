@@ -5,11 +5,13 @@ const authRoutes = require("./authRoutes");
 const OrganizationRoutes = require("./organizationRoutes");
 const UserRoutes = require("./userRoutes");
 const InviteRoutes = require("./inviteRoutes");
+const ProjectRoutes = require("./projectRoutes");
 
 router.use("/auth", authRoutes);
 router.use("/org", OrganizationRoutes);
 router.use("/user", UserRoutes);
 router.use("/invite", InviteRoutes)
+router.use("/project", ProjectRoutes);
 
 
 module.exports = router;

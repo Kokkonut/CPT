@@ -31,6 +31,16 @@ const projectSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Task',
     }],
+    status: {
+        type: String,
+        enum: ['active', 'on hold', 'completed', 'cancelled'],
+        default: 'active',
+    },
+    phase: {
+        type: String,
+        enum: ['ideate', 'discover', 'deliver', 'embed', 'closure'],
+        default: 'ideate',
+    },
 }
 );
 
