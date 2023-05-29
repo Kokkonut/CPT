@@ -6,8 +6,6 @@ import { useParams } from "@remix-run/react";
 import DashboardLayout from "~/layouts/Dashboardlayout";
 
 const ProjectUserManagement = () => {
-
-
   const { orgId, projectId } = useParams();
   const [availableUsers, setAvailableUsers] = useState([]);
   const [assignedUsers, setAssignedUsers] = useState([]);
@@ -25,24 +23,26 @@ const ProjectUserManagement = () => {
     };
 
     // Fetch assigned users
-    // const fetchAssignedUsers = async () => {
-    //   const res = await fetch(`/api/org/${orgId}/project/${projectId}/users`);
-    //   const data = await res.json();
-    //   setAssignedUsers(data);
-    // };
+    const fetchAssignedUsers = async () => {
+      const res = await fetch(
+        `/api/project/${orgId}/${projectId}/assignedUsers`
+      );
+      const data = await res.json();
+      setAssignedUsers(data);
+    };
 
     fetchAvailableUsers();
-    // fetchAssignedUsers();
+    fetchAssignedUsers();
   }, [orgId, projectId]);
 
-    if (loading) {
-        return (<div>LOADING</div>)
-    }
+  if (loading) {
+    return <div>LOADING</div>;
+  }
 
-  const assignToProject = async (userId) => {
+  const assignToProject = async (userId: any) => {
     // Add user to project
     const res = await fetch(
-      `/api/org/${orgId}/project/${projectId}/user/${userId}`,
+      `/api/project/${orgId}/${projectId}/assignUser/${userId}`,
       {
         method: "POST",
       }
@@ -58,7 +58,7 @@ const ProjectUserManagement = () => {
   const removeFromProject = async (userId) => {
     // Remove user from project
     const res = await fetch(
-      `/api/org/${orgId}/project/${projectId}/user/${userId}`,
+      `/api/project/${orgId}/${projectId}/removeUser/${userId}`,
       {
         method: "DELETE",
       }
@@ -70,7 +70,7 @@ const ProjectUserManagement = () => {
       setAvailableUsers([...availableUsers, user]);
     }
   };
-
+console.log("assigned users", assignedUsers)
   return (
     <DashboardLayout>
       <div>
@@ -78,7 +78,10 @@ const ProjectUserManagement = () => {
           users={availableUsers}
           assignToProject={assignToProject}
         />
-        {/* <AssignedUsers users={assignedUsers} removeFromProject={removeFromProject} /> */}
+        <AssignedUsers
+          users={assignedUsers}
+          removeFromProject={removeFromProject}
+        />
       </div>
     </DashboardLayout>
   );

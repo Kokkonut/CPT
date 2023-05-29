@@ -101,16 +101,80 @@ exports.availableUsers = async (req, res) => {
     const allUsers = await User.find({ 'organizations.org': new mongoose.Types.ObjectId(orgId) });
    
 
-    const assignedUserIds = project.employees.map((user) =>
-      user.user.toString()
-    );
-
-
+    const assignedUserIds = project.employees.map((userId) =>
+    userId.toString()
+  );
+  
     const availableUsers = allUsers.filter(
       (user) => !assignedUserIds.includes(user._id.toString())
     );
     
     res.status(200).json(availableUsers);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// get users assigned to a project
+exports.assignedUsers = async (req, res) => {
+  const { projectId } = req.params;
+
+  try {
+    const project = await Project.findById(projectId).populate('employees');
+    
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+    
+    res.status(200).json(project.employees);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+// Assign a user to a project
+exports.assignUser = async (req, res) => {
+  const { projectId, userId } = req.params;
+
+  try {
+    const project = await Project.findById(projectId);
+    const user = await User.findById(userId);
+
+    if (!project || !user) {
+      return res.status(404).json({ message: "Project or User not found" });
+    }
+
+    // Adding the user to the project's employees array
+    project.employees.push(userId);
+
+    await project.save();
+    
+    res.status(200).json({ message: "User successfully assigned to project" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+// Remove a user from a project
+exports.removeUser = async (req, res) => {
+  const { projectId, userId } = req.params;
+
+  try {
+    const project = await Project.findById(projectId);
+    const user = await User.findById(userId);
+
+    if (!project || !user) {
+      return res.status(404).json({ message: "Project or User not found" });
+    }
+
+    // Removing the user from the project's employees array
+    project.employees = project.employees.filter(employeeId => employeeId.toString() !== userId);
+
+    await project.save();
+
+    res.status(200).json({ message: "User successfully removed from project" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
