@@ -17,7 +17,6 @@ export async function loader({ request, params }: LoaderContext) {
       },
     }
   );
-  console.log('RESPONSE FROM MANAGE PROJECTS LOADER', response);
   const data = await response.json();
   console.log('DATA FROM MANAGE PROJECTS LOADER', data);
   return data;
@@ -30,7 +29,7 @@ function ManageProjects() {
   return (
     <DashboardLayout>
       <Breadcrumb pageName="Manage Projects" />
-      {/* <OrgProjects projects={data.projects} /> */}
+      <OrgProjects projects={data} />
     </DashboardLayout>
   )
 }

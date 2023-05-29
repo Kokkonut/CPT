@@ -9,13 +9,13 @@ exports.createProject = async (req, res) => {
     try {
         const { name, description, startDate, endDate, organizationId } = req.body;
         const userId = req.user.id;
-
+      console.log("createProject called and params are: ", organizationId);
         const newProject = new Project({
             name,
             description,
             startDate,
             endDate,
-            organization: organizationId,
+            org: organizationId,
             owner: userId,
         });
 
@@ -23,6 +23,7 @@ exports.createProject = async (req, res) => {
 
         await Organization.findByIdAndUpdate(
             organizationId,
+            console.log('ORGID', organizationId),
             {
                 $push: {
                     projects: {
@@ -33,6 +34,15 @@ exports.createProject = async (req, res) => {
             },
             { new: true }
         );
+        // await Project.findByIdAndUpdate(
+        //     savedProject._id,
+        //     {
+        //         $push: {
+        //             org: organizationId,
+        //         },
+        //     },
+        //     { new: true }
+        // );
 
         res.status(201).json(savedProject);
     } catch (error) {
@@ -47,7 +57,7 @@ exports.getProjects = async (req, res) => {
         console.log("getProjects called and params are: ", req.params);
         const { orgId } = req.params;
 
-        const projects = await Project.find({ organization: orgId });
+        const projects = await Project.find({ org: orgId });
 
         res.status(200).json(projects);
     } catch (error) {

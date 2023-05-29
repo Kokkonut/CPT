@@ -13,6 +13,13 @@ const projectSchema = new Schema({
         required: true,
         trim: true,
     },
+    
+    org: {
+        type: Schema.Types.ObjectId,
+        ref: 'Organization',
+        required: true,
+    },
+
     startDate: {
         type: Date,
         required: true,
