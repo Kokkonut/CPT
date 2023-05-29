@@ -10,7 +10,7 @@ exports.createProject = async (req, res) => {
   try {
     const { name, description, startDate, endDate, organizationId } = req.body;
     const userId = req.user.id;
-    console.log("createProject called and params are: ", organizationId);
+  
     const newProject = new Project({
       name,
       description,
@@ -24,7 +24,7 @@ exports.createProject = async (req, res) => {
 
     await Organization.findByIdAndUpdate(
       organizationId,
-      console.log("ORGID", organizationId),
+
       {
         $push: {
           projects: {
@@ -43,9 +43,9 @@ exports.createProject = async (req, res) => {
 
 // Get all projects for an organization
 exports.getProjects = async (req, res) => {
-  console.log("getProjects called");
+
   try {
-    console.log("getProjects called and params are: ", req.params);
+  
     const { orgId } = req.params;
 
     const projects = await Project.find({ org: orgId });
@@ -61,7 +61,7 @@ exports.updateProject = async (req, res) => {
   try {
     const { orgId, projectId } = req.params;
     const updates = req.body;
-    console.log("updateProject called", updates);
+ 
 
     const project = await Project.findOne({ _id: projectId, org: orgId });
 
@@ -83,7 +83,7 @@ exports.updateProject = async (req, res) => {
 
 //get users not assigned to a project
 exports.availableUsers = async (req, res) => {
-    console.log("availableUsers called");
+ 
   const { orgId, projectId } = req.params;
 
   try {
@@ -93,23 +93,23 @@ exports.availableUsers = async (req, res) => {
     }
 
     const project = await Project.findById(projectId);
-    console.log("PROJECT", project)
+
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
 
     const allUsers = await User.find({ 'organizations.org': new mongoose.Types.ObjectId(orgId) });
-    console.log("allUsers called and params are: ", allUsers);
+   
 
     const assignedUserIds = project.employees.map((user) =>
       user.user.toString()
     );
-    console.log("assignedUserIds called and params are: ", assignedUserIds);
+
 
     const availableUsers = allUsers.filter(
       (user) => !assignedUserIds.includes(user._id.toString())
     );
-        console.log("XXXavailableUsersXXX called and params are: ", availableUsers);
+    
     res.status(200).json(availableUsers);
   } catch (err) {
     res.status(500).json({ message: err.message });

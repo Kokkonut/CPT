@@ -27,7 +27,6 @@ export async function loader({ request, params }: LoaderContext) {
 function ManageUsers() {
 //   const { users, joinRequests } = useLoaderData();
 const data = useLoaderData();
-console.log('DATA FROM MANAGE USERS', data);
 
 return (
     <DashboardLayout>

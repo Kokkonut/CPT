@@ -9,7 +9,7 @@ function InviteUsers() {
   const location = useLocation();
   const { pathname } = location;
   const  organizationId  = pathname.split("/")[2];
-  console.log('ORGID', organizationId);
+  
 
   async function handleSubmit(event: { preventDefault: () => void; }) {
     event.preventDefault();

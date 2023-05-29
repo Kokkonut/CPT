@@ -3,9 +3,7 @@ import { useState, useEffect } from "react";
 
 // Function to get a cookie value
 function getCookieValue(name: string) {
-  console.log('All cookies:', document.cookie);
   const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  console.log('Match for', name, ':', match);
   if (match) return match[2];
   return '';
 }

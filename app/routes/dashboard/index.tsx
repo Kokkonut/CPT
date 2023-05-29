@@ -7,7 +7,7 @@ import type { LoaderFunction } from "@remix-run/node";
 
 export let loader: LoaderFunction = async ({ request }) => {
   const cookie = request.headers.get("cookie");
-  console.log("Cookie:", cookie);
+
 
   const response = await fetch("http://localhost:3000/api/user/data", {
     headers: {

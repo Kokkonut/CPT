@@ -18,13 +18,12 @@ export async function loader({ request, params }: LoaderContext) {
     }
   );
   const data = await response.json();
-  console.log('DATA FROM MANAGE PROJECTS LOADER', data);
   return data;
 }
 
 function ManageProjects() {
   const data = useLoaderData();
-  console.log('DATA FROM MANAGE PROJECTS', data);
+
 
   return (
     <DashboardLayout>
