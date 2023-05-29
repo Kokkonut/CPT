@@ -10,7 +10,7 @@ const OrgProjects: React.FC<OrgProjectsProps> = ({ projects }) => {
 //Updater for selected project
   const handleUpdateProject = async (projectId: any, field: string, value: string) => {
     try {
-      const response = await fetch(`/api/org/${orgId}/project/${projectId}`, {
+      const response = await fetch(`/api/project/${orgId}/${projectId}`, {
         method: "PATCH",
         body: JSON.stringify({ [field]: value }),
         headers: { "Content-Type": "application/json" },
