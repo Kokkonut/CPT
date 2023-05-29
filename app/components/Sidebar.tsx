@@ -7,6 +7,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { HamburgerSvg } from "../images/svg/svgComponents";
 import DashboardSubMenu from "~/components/SubMenus/DashboardMenu";
 import OrgDashboardSubMenu from "~/components/SubMenus/OrgDashboardMenu";
+import ProjectSubMenu from "~/components/SubMenus/ProjectMenu";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -23,14 +24,20 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const { pathname } = location;
 
   let Menu;
+  let pathSegments = pathname.split("/");
 
-  switch (pathname.split("/")[1]) {
+  switch (pathSegments[1]) {
     case 'dashboard':
       Menu = DashboardSubMenu;
       break;
       case 'auth':
       case 'organization-dashboard':
-      Menu = OrgDashboardSubMenu;
+        if (pathSegments[3] === 'projects' && pathSegments[5] === 'details') {
+      Menu = ProjectSubMenu;
+          
+        } else {
+          Menu = OrgDashboardSubMenu;
+        }
       break;
     default:
       Menu = () => null;
@@ -102,7 +109,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             </h3>
 
             {/* Add Sub Menus here */}
-          <Menu />
+          <Menu sidebarOpen={false} setSideBarOpen={function (arg: boolean): void {
+              throw new Error("Function not implemented.");
+            } } />
           </div>
         </nav>
      

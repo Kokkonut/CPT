@@ -1,5 +1,6 @@
 import React from "react";
 import { useParams } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 
 interface OrgProjectsProps {
     projects: any[];
@@ -58,9 +59,13 @@ const OrgProjects: React.FC<OrgProjectsProps> = ({ projects }) => {
               className="grid grid-cols-3 border-b border-stroke dark:border-strokedark bg-white dark:bg-boxdark"
               key={project._id}
             >
+         
               <div className="flex items-center gap-3 p-2.5 xl:p-5">
+              <Link to={`/organization-dashboard/${orgId}/projects/${project._id}/details`}>
                 <p className="text-black dark:text-white">{project.name}</p>
+                </Link>
               </div>
+              
               <div className="flex items-center justify-center p-2.5 xl:p-5">
                 <select
                   className="py-2 pl-3 pr-8 rounded-md text-black dark:text-white bg-gray-2 dark:bg-meta-4 focus:outline-none dark:focus:ring-offset-boxdark"

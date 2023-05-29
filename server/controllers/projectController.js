@@ -60,6 +60,7 @@ exports.updateProject = async (req, res) => {
     try {
         const { orgId, projectId } = req.params;
         const updates = req.body;
+        console.log("updateProject called", updates);
 
         const project = await Project.findOne({ _id: projectId, org: orgId });
 
