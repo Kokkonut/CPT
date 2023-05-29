@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-import { Form } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import UsersPending from "~/components/tables/UsersPending";
 import OrgUsers from "~/components/tables/OrgUsers";
@@ -7,12 +5,18 @@ import OrgUsers from "~/components/tables/OrgUsers";
 import DashboardLayout from "~/layouts/Dashboardlayout";
 import Breadcrumb from "~/components/Breadcrumb";
 
+interface LoaderContext {
+  request: Request;
+  params: { orgId: string };
+}
+
+
 export async function loader({ request, params }: LoaderContext) {
   const response = await fetch(
     `http://localhost:3000/api/org/users/${params.orgId}`,
     {
       headers: {
-        cookie: request.headers.get("cookie"), // Pass the cookies along with the request
+        cookie: request.headers.get("cookie") || '', // Pass the cookies along with the request
       },
     }
   );

@@ -9,12 +9,6 @@ exports.createProject = async (req, res) => {
     try {
         const { name, description, startDate, endDate, organizationId } = req.body;
         const userId = req.user.id;
-        console.log("NEW PROJECT: NAME:", name)
-        console.log("NEW PROJECT: DESCRIPTION:", description)
-        console.log("NEW PROJECT: START DATE:", startDate)
-        console.log("NEW PROJECT: END DATE:", endDate)
-        console.log("NEW PROJECT: ORGANIZATION ID:", organizationId)
-        console.log("NEW PROJECT: USER ID:", userId)
 
         const newProject = new Project({
             name,
@@ -45,3 +39,19 @@ exports.createProject = async (req, res) => {
         res.status(500).json(error);
     }
 };
+
+// Get all projects for an organization
+exports.getProjects = async (req, res) => {
+    console.log("getProjects called");
+    try {
+        console.log("getProjects called and params are: ", req.params);
+        const { orgId } = req.params;
+
+        const projects = await Project.find({ organization: orgId });
+
+        res.status(200).json(projects);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+
