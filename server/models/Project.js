@@ -30,10 +30,10 @@ const projectSchema = new Schema({
         required: false,
         trim: true,
     },
-    employees: {
+    employees: [{
         type: Schema.Types.ObjectId,
         ref: 'User',
-    },
+    }],
     tasks: [{
         type: Schema.Types.ObjectId,
         ref: 'Task',
