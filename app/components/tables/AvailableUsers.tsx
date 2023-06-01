@@ -47,7 +47,7 @@ const AvailableUsers = ({ users, assignToProject }: AvailableUsersProps) => {
                 className="inline-flex items-center justify-center rounded-md border border-meta-7 py-2 px-6 text-center font-medium text-meta-7 hover:bg-opacity-90 lg:px-8 xl:px-10"
                 onClick={() => assignToProject(user._id)}
               >
-                Addß
+                Add
               </button>
             </div>
           </div>

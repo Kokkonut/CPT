@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Organization = require("../models/Organization");
 const User = require("../models/User");
 const Project = require("../models/Project");
+const Task = require("../models/Task");
 // const Task = require("../models/Task");
 // const TaskInstance = require("../models/TaskInstance");
 

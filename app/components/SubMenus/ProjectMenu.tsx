@@ -68,7 +68,7 @@ const ProjectMenu = ({ sidebarOpen, setSideBarOpen }: SidebarProps) => {
                 <NavLink
                to={`../organization-dashboard/${orgId}/projects/${projectId}/teamPlanner`}
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('calendar') &&
+                    pathname.includes('teamPlanner') &&
                     'bg-graydark dark:bg-meta-4'
                   }`}
                 >
@@ -91,9 +91,9 @@ const ProjectMenu = ({ sidebarOpen, setSideBarOpen }: SidebarProps) => {
                                 {/* Task Manager */}
                                 <li>
                 <NavLink
-                  to="/calendar"
+                  to={`../organization-dashboard/${orgId}/projects/${projectId}/taskManager`}
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('calendar') &&
+                    pathname.includes('taskManager') &&
                     'bg-graydark dark:bg-meta-4'
                   }`}
                 >

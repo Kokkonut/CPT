@@ -22,26 +22,26 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   //Case MUST match part of the Route.
   const location = useLocation();
   const { pathname } = location;
-
+  
   let Menu;
   let pathSegments = pathname.split("/");
-
+  
   switch (pathSegments[1]) {
     case 'dashboard':
       Menu = DashboardSubMenu;
       break;
-      case 'auth':
-      case 'organization-dashboard':
-        if (pathSegments[3] === 'projects' && pathSegments[5] === 'details') {
-      Menu = ProjectSubMenu;
-          
-        } else {
-          Menu = OrgDashboardSubMenu;
-        }
+    case 'auth':
+    case 'organization-dashboard':
+      if (pathSegments[3] === 'projects') {
+        Menu = ProjectSubMenu;
+      } else {
+        Menu = OrgDashboardSubMenu;
+      }
       break;
     default:
       Menu = () => null;
   }
+  
 
 
   const trigger = useRef<any>(null);

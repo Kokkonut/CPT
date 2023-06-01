@@ -4,11 +4,12 @@ import AssignedUsers from "~/components/tables/AssignedUsers";
 import { useParams } from "@remix-run/react";
 
 import DashboardLayout from "~/layouts/Dashboardlayout";
+import Breadcrumb from "~/components/Breadcrumb";
 
 const ProjectUserManagement = () => {
   const { orgId, projectId } = useParams();
-  const [availableUsers, setAvailableUsers] = useState([]);
-  const [assignedUsers, setAssignedUsers] = useState([]);
+  const [availableUsers, setAvailableUsers] = useState<any[]>([]);
+  const [assignedUsers, setAssignedUsers] = useState<any[]>([]);
   const [loading, setloading] = useState(true);
 
   useEffect(() => {
@@ -55,7 +56,7 @@ const ProjectUserManagement = () => {
     }
   };
 
-  const removeFromProject = async (userId) => {
+  const removeFromProject = async (userId: any) => {
     // Remove user from project
     const res = await fetch(
       `/api/project/${orgId}/${projectId}/removeUser/${userId}`,
@@ -70,9 +71,10 @@ const ProjectUserManagement = () => {
       setAvailableUsers([...availableUsers, user]);
     }
   };
-console.log("assigned users", assignedUsers)
+
   return (
     <DashboardLayout>
+      <Breadcrumb pageName="Manage Users" />
       <div>
         <AvailableUsers
           users={availableUsers}

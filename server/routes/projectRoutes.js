@@ -13,6 +13,7 @@ const { authenticateJWT } = require("../middleware/authenticateJWT");
 router.post("/createProject", authenticateJWT, createProject);
 router.get("/:orgId", authenticateJWT, getProjects);
 router.patch("/:orgId/:projectId", authenticateJWT, updateProject);
+
 router.get("/:orgId/:projectId/availableUsers", authenticateJWT, availableUsers);
 router.get("/:orgId/:projectId/assignedUsers", authenticateJWT, assignedUsers);
 router.post("/:orgId/:projectId/assignUser/:userId", authenticateJWT, assignUser);
